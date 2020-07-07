@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+
+    <ImageView
+        android:id="@+id/arrow_pad"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_baseline_arrow_forward_ios_20"
+        android:contentDescription="@string/arrow" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/opening_bracket_button"
+            style="@style/ButtonOperatorPadStyle"
+            android:text="("
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/closing_bracket_button"
+            style="@style/ButtonOperatorPadStyle"
+            android:text=")"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/opening_bracket_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

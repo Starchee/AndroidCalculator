@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryLightBackground"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/divide_button"
+        android:text="@string/divide"
+        style="@style/ButtonOperatorPadStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/multiply_button"
+        android:text="@string/multiply"
+        style="@style/ButtonOperatorPadStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divide_button" />
+
+    <Button
+        android:id="@+id/subtraction_button"
+        android:text="@string/subtraction"
+        style="@style/ButtonOperatorPadStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/multiply_button" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:text="@string/add"
+        style="@style/ButtonOperatorPadStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subtraction_button" />
+
+    <Button
+        android:id="@+id/equals_button"
+        android:text="@string/equals"
+        style="@style/ButtonEqualsStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_button" />
+</androidx.constraintlayout.widget.ConstraintLayout>
