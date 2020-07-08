@@ -17,6 +17,11 @@ public class PadFragment extends Fragment  {
     private PadOperationFragment padOperationFragment;
     private PadAdvancedFragment padAdvancedFragment;
 
+    public interface MathPadOnClickListener {
+        View.OnClickListener setMathButtonOnClickListener();
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

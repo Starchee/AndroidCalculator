@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/design_default_color_error"
+    android:background="@color/colorPrimaryLightBackground"
     android:layout_height="match_parent">
 
 
-
+    <TextView
+        android:id="@+id/expressionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/answerTextView"
+        android:textSize="40sp"/>
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:id="@+id/answerTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryLightBackground"
-        android:text="123"
         android:layout_alignParentBottom="true"
-        android:textSize="200sp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="30sp"/>
     <ImageView
         android:id="@+id/arrow_display"
         android:paddingBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryLightBackground"
-        android:layout_alignBottom="@id/textView"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:rotation="90"
         android:src="@drawable/ic_baseline_arrow_forward_ios_20"
         android:contentDescription="@string/arrow" />
-
 
 
 

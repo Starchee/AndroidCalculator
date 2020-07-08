@@ -8,8 +8,7 @@
 
     <style name="ButtonNumberPadStyle">
         <item name="android:textSize">30sp</item>
-        <item name="android:paddingBottom">25dp</item>
-        <item name="android:paddingTop">25dp</item>
+        <item name="android:padding">25dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_width">wrap_content</item>
