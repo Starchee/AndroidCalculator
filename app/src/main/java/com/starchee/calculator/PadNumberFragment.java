@@ -15,6 +15,7 @@ public class PadNumberFragment extends Fragment {
 
     private View.OnClickListener mathButtonOnClickListener;
     private View.OnClickListener deleteButtonOnClickListener;
+    private View.OnLongClickListener deleteButtonOnLongClickListener;
     private View.OnClickListener dotButtonOnClickListener;
 
     public interface DotButtonOnClickListener{
@@ -23,6 +24,10 @@ public class PadNumberFragment extends Fragment {
 
     public interface DeleteButtonOnClickListener{
         View.OnClickListener setDeleteButtonOnClickListener();
+    }
+
+    public interface DeleteButtonOnLongClickListener{
+        View.OnLongClickListener setDeleteButtonOnLongClickListener();
     }
 
     @Nullable
@@ -65,6 +70,7 @@ public class PadNumberFragment extends Fragment {
 
         Button delButton = rootView.findViewById(R.id.del_button);
         delButton.setOnClickListener(deleteButtonOnClickListener);
+        delButton.setOnLongClickListener(deleteButtonOnLongClickListener);
 
         return rootView;
     }
@@ -89,6 +95,12 @@ public class PadNumberFragment extends Fragment {
             deleteButtonOnClickListener = ((PadNumberFragment.DeleteButtonOnClickListener) context).setDeleteButtonOnClickListener();
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() + " must implement PadNumberFragment.DeleteButtonOnClickListener");
+        }
+
+        try {
+            deleteButtonOnLongClickListener = ((PadNumberFragment.DeleteButtonOnLongClickListener) context).setDeleteButtonOnLongClickListener();
+        } catch (ClassCastException e){
+            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.DeleteButtonOnLongClickListener");
         }
     }
 }

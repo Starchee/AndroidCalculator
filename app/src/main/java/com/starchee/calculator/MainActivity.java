@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.starchee.calculator.java.Main;
+import com.starchee.calculator.model.Main;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -14,6 +14,7 @@ public class MainActivity extends FragmentActivity implements
         PadFragment.MathPadOnClickListener,
         PadNumberFragment.DotButtonOnClickListener,
         PadNumberFragment.DeleteButtonOnClickListener,
+        PadNumberFragment.DeleteButtonOnLongClickListener,
         PadOperationFragment.OperationPadOnClickListener,
         PadOperationFragment.EqualsOnClickListener {
 
@@ -60,6 +61,9 @@ public class MainActivity extends FragmentActivity implements
             public void onClick(View view) {
                 setDisplayExpression(view);
                 displayFragment.setOperatorEnabled(true);
+                if (displayFragment.isCalculateEnabled()){
+                    setDisplayAnswer();
+                }
             }
         };
     }
@@ -84,6 +88,7 @@ public class MainActivity extends FragmentActivity implements
                 }
                 setDisplayExpression(view);
                 displayFragment.setDotEnabled(true);
+                displayFragment.setCalculateEnabled(true);
                 displayFragment.setOperatorEnabled(false);
             }
         };
@@ -107,9 +112,16 @@ public class MainActivity extends FragmentActivity implements
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayFragment.setAnswer(Main.calculate(displayFragment.getExpression()));
+                displayFragment.setCalculateEnabled(false);
+                displayFragment.clearExpression();
+                displayFragment.setExpressionToken(displayFragment.getAnswer());
+                displayFragment.clearAnswer();
             }
         };
+    }
+
+    private void setDisplayAnswer() {
+        displayFragment.setAnswer(Main.calculate(displayFragment.getExpression()));
     }
 
     private void setDisplayExpression(View view) {
@@ -117,5 +129,15 @@ public class MainActivity extends FragmentActivity implements
     }
 
 
+    @Override
+    public View.OnLongClickListener setDeleteButtonOnLongClickListener() {
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                displayFragment.clearDisplay();
+                return true;
+            }
+        };
+    }
 }
 

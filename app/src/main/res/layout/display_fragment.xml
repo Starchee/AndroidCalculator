@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/display_fragment"
     android:layout_width="match_parent"
     android:background="@color/colorPrimaryLightBackground"
     android:layout_height="match_parent">
@@ -12,6 +13,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="10dp"
         android:layout_above="@id/answerTextView"
+        android:background="@color/colorPrimaryLightBackground"
         android:textSize="40sp"/>
 
     <TextView
@@ -20,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimaryLightBackground"
         android:layout_marginBottom="20dp"
         android:textSize="30sp"/>
     <ImageView
@@ -30,6 +33,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:rotation="90"
+        android:background="@color/colorPrimaryLightBackground"
         android:src="@drawable/ic_baseline_arrow_forward_ios_20"
         android:contentDescription="@string/arrow" />
 
