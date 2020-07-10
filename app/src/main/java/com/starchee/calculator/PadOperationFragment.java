@@ -11,17 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PadOperationFragment extends Fragment {
+public class PadOperationFragment extends Fragment implements View.OnClickListener {
 
-    private View.OnClickListener operationButtonOnClickListener;
-    private View.OnClickListener equalsButtonOnClickListener;
+    private OperationPadOnClickListener operationPadOnClickListener;
 
     public interface OperationPadOnClickListener{
-        View.OnClickListener setOperationButtonOnClickListener();
-    }
-
-    public interface EqualsOnClickListener{
-        View.OnClickListener setEqualsButtonOnClickListener();
+        void operationButtonOnClickListener(String text);
+        void equalsButtonOnClickListener();
     }
 
     @Nullable
@@ -30,19 +26,19 @@ public class PadOperationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.pad_operation_fragment, container, false);
 
         Button divideButton = rootView.findViewById(R.id.divide_button);
-        divideButton.setOnClickListener(operationButtonOnClickListener);
+        divideButton.setOnClickListener(this);
 
         Button multiplyButton = rootView.findViewById(R.id.multiply_button);
-        multiplyButton.setOnClickListener(operationButtonOnClickListener);
+        multiplyButton.setOnClickListener(this);
 
         Button subtractionButton = rootView.findViewById(R.id.subtraction_button);
-        subtractionButton.setOnClickListener(operationButtonOnClickListener);
+        subtractionButton.setOnClickListener(this);
 
         Button addButton = rootView.findViewById(R.id.add_button);
-        addButton.setOnClickListener(operationButtonOnClickListener);
+        addButton.setOnClickListener(this);
 
         Button equalsButton = rootView.findViewById(R.id.equals_button);
-        equalsButton.setOnClickListener(equalsButtonOnClickListener);
+        equalsButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -52,15 +48,18 @@ public class PadOperationFragment extends Fragment {
         super.onAttach(context);
 
         try {
-            operationButtonOnClickListener = ((PadOperationFragment.OperationPadOnClickListener) context).setOperationButtonOnClickListener();
+            operationPadOnClickListener = (PadOperationFragment.OperationPadOnClickListener) context;
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() + " must implements PadOperationFragment.OperationPadOnClickListener");
         }
+    }
 
-        try {
-            equalsButtonOnClickListener = ((PadOperationFragment.EqualsOnClickListener) context).setEqualsButtonOnClickListener();
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implements PadOperationFragment.EqualsOnClickListener");
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.equals_button){
+            operationPadOnClickListener.equalsButtonOnClickListener();
+        } else {
+            operationPadOnClickListener.operationButtonOnClickListener(((Button) view).getText().toString());
         }
     }
 }

@@ -11,23 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PadNumberFragment extends Fragment {
+public class PadNumberFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
-    private View.OnClickListener mathButtonOnClickListener;
-    private View.OnClickListener deleteButtonOnClickListener;
-    private View.OnLongClickListener deleteButtonOnLongClickListener;
-    private View.OnClickListener dotButtonOnClickListener;
+    private  boolean ClrButtonVisible = false;
+    private PadNumberFragmentOnClickListener padNumberFragmentOnClickListener;
 
-    public interface DotButtonOnClickListener{
-        View.OnClickListener setDotButtonOnClickListener();
-    }
-
-    public interface DeleteButtonOnClickListener{
-        View.OnClickListener setDeleteButtonOnClickListener();
-    }
-
-    public interface DeleteButtonOnLongClickListener{
-        View.OnLongClickListener setDeleteButtonOnLongClickListener();
+    public interface PadNumberFragmentOnClickListener{
+        void numberButtonOnClickListener(String text);
+        void dotButtonOnClickListener(String text);
+        void delButtonOnClickListener();
+        void delButtonOnLongClickListener();
+        void clrButtonOnClickListener();
     }
 
     @Nullable
@@ -36,41 +30,46 @@ public class PadNumberFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.pad_number_fragment, container, false);
 
         Button zeroButton = rootView.findViewById(R.id.zero_button);
-        zeroButton.setOnClickListener(mathButtonOnClickListener);
+        zeroButton.setOnClickListener(this);
 
         Button oneButton = rootView.findViewById(R.id.one_button);
-        oneButton.setOnClickListener(mathButtonOnClickListener);
+        oneButton.setOnClickListener(this);
 
         Button twoButton = rootView.findViewById(R.id.two_button);
-        twoButton.setOnClickListener(mathButtonOnClickListener);
+        twoButton.setOnClickListener(this);
 
         Button threeButton = rootView.findViewById(R.id.three_button);
-        threeButton.setOnClickListener(mathButtonOnClickListener);
+        threeButton.setOnClickListener(this);
 
         Button fourButton = rootView.findViewById(R.id.four_button);
-        fourButton.setOnClickListener(mathButtonOnClickListener);
+        fourButton.setOnClickListener(this);
 
         Button fiveButton = rootView.findViewById(R.id.five_button);
-        fiveButton.setOnClickListener(mathButtonOnClickListener);
+        fiveButton.setOnClickListener(this);
 
         Button sixButton = rootView.findViewById(R.id.six_button);
-        sixButton.setOnClickListener(mathButtonOnClickListener);
+        sixButton.setOnClickListener(this);
 
         Button sevenButton = rootView.findViewById(R.id.seven_button);
-        sevenButton.setOnClickListener(mathButtonOnClickListener);
+        sevenButton.setOnClickListener(this);
 
         Button eightButton = rootView.findViewById(R.id.eight_button);
-        eightButton.setOnClickListener(mathButtonOnClickListener);
+        eightButton.setOnClickListener(this);
 
         Button nineButton = rootView.findViewById(R.id.nine_button);
-        nineButton.setOnClickListener(mathButtonOnClickListener);
+        nineButton.setOnClickListener(this);
 
         Button dotButton = rootView.findViewById(R.id.dot_button);
-        dotButton.setOnClickListener(dotButtonOnClickListener);
+        dotButton.setOnClickListener(this);
+
 
         Button delButton = rootView.findViewById(R.id.del_button);
-        delButton.setOnClickListener(deleteButtonOnClickListener);
-        delButton.setOnLongClickListener(deleteButtonOnLongClickListener);
+        delButton.setOnClickListener(this);
+        delButton.setOnLongClickListener(this);
+
+
+        Button clrButton = rootView.findViewById(R.id.clr_button);
+        clrButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -79,28 +78,28 @@ public class PadNumberFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            mathButtonOnClickListener = ((PadFragment.MathPadOnClickListener) context).setMathButtonOnClickListener();
-            deleteButtonOnClickListener = ((PadNumberFragment.DeleteButtonOnClickListener) context).setDeleteButtonOnClickListener();
+            padNumberFragmentOnClickListener = (PadNumberFragment.PadNumberFragmentOnClickListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.MathPadOnClickListener");
+            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.PadNumberFragmentOnClickListener");
         }
+    }
 
-        try {
-            dotButtonOnClickListener = ((PadNumberFragment.DotButtonOnClickListener) context).setDotButtonOnClickListener();
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.DotButtonOnClickListener");
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.dot_button){
+            padNumberFragmentOnClickListener.dotButtonOnClickListener(((Button) view).getText().toString());
+        } else if (view.getId() == R.id.del_button){
+            padNumberFragmentOnClickListener.delButtonOnClickListener();
+        } else if (view.getId() == R.id.clr_button){
+            padNumberFragmentOnClickListener.clrButtonOnClickListener();
+        } else {
+            padNumberFragmentOnClickListener.numberButtonOnClickListener(((Button) view).getText().toString());
         }
+    }
 
-        try {
-            deleteButtonOnClickListener = ((PadNumberFragment.DeleteButtonOnClickListener) context).setDeleteButtonOnClickListener();
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.DeleteButtonOnClickListener");
-        }
-
-        try {
-            deleteButtonOnLongClickListener = ((PadNumberFragment.DeleteButtonOnLongClickListener) context).setDeleteButtonOnLongClickListener();
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadNumberFragment.DeleteButtonOnLongClickListener");
-        }
+    @Override
+    public boolean onLongClick(View view) {
+        padNumberFragmentOnClickListener.delButtonOnLongClickListener();
+        return true;
     }
 }

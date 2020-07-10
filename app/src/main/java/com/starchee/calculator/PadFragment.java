@@ -17,10 +17,6 @@ public class PadFragment extends Fragment  {
     private PadOperationFragment padOperationFragment;
     private PadAdvancedFragment padAdvancedFragment;
 
-    public interface MathPadOnClickListener {
-        View.OnClickListener setMathButtonOnClickListener();
-    }
-
 
     @Nullable
     @Override
@@ -33,16 +29,16 @@ public class PadFragment extends Fragment  {
 
         padOperationFragment = new PadOperationFragment();
         padAdvancedFragment = new PadAdvancedFragment();
-        padAdvancedFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewPager.getCurrentItem() == 1) {
-                    viewPager.setCurrentItem(0);
-                } else {
-                    viewPager.setCurrentItem(1);
-                }
-            }
-        });
+//        padAdvancedFragment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (viewPager.getCurrentItem() == 1) {
+//                    viewPager.setCurrentItem(0);
+//                } else {
+//                    viewPager.setCurrentItem(1);
+//                }
+//            }
+//        });
 
         pagerAdapter = new PagerAdapter(this, padOperationFragment, padAdvancedFragment);
         viewPager.setAdapter(pagerAdapter);

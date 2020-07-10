@@ -2,7 +2,6 @@ package com.starchee.calculator;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.starchee.calculator.model.Main;
 
@@ -11,17 +10,22 @@ import androidx.viewpager2.widget.ViewPager2;
 
 
 public class MainActivity extends FragmentActivity implements
-        PadFragment.MathPadOnClickListener,
-        PadNumberFragment.DotButtonOnClickListener,
-        PadNumberFragment.DeleteButtonOnClickListener,
-        PadNumberFragment.DeleteButtonOnLongClickListener,
+        PadNumberFragment.PadNumberFragmentOnClickListener,
         PadOperationFragment.OperationPadOnClickListener,
-        PadOperationFragment.EqualsOnClickListener {
+        PadAdvancedFragment.PadAdvancedFragmentOnClickListener {
 
     private ViewPager2 viewPager;
     private PagerAdapter pagerAdapter;
     private PadFragment padFragment;
     private DisplayFragment displayFragment;
+
+    private void setDisplayAnswer() {
+        displayFragment.setAnswer(Main.calculate(displayFragment.getExpression()));
+    }
+
+    private void setDisplayExpression(String text) {
+        displayFragment.setExpressionToken(text);
+    }
 
 
     @Override
@@ -55,89 +59,63 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public View.OnClickListener setMathButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setDisplayExpression(view);
-                displayFragment.setOperatorEnabled(true);
-                if (displayFragment.isCalculateEnabled()){
-                    setDisplayAnswer();
-                }
-            }
-        };
+    public void numberButtonOnClickListener(String text) {
+        setDisplayExpression(text);
+        displayFragment.setOperatorEnabled(true);
+        if (displayFragment.isCalculateEnabled()) {
+            setDisplayAnswer();
+        }
     }
 
     @Override
-    public View.OnClickListener setDeleteButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayFragment.deleteExpressionToken();
-            }
-        };
+    public void dotButtonOnClickListener(String text) {
+        if (displayFragment.isDotEnabled()) {
+            setDisplayExpression(text);
+            displayFragment.setDotEnabled(false);
+        }
     }
 
     @Override
-    public View.OnClickListener setOperationButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!displayFragment.isOperatorEnabled()) {
-                    displayFragment.deleteExpressionToken();
-                }
-                setDisplayExpression(view);
-                displayFragment.setDotEnabled(true);
-                displayFragment.setCalculateEnabled(true);
-                displayFragment.setOperatorEnabled(false);
-            }
-        };
+    public void delButtonOnClickListener() {
+        displayFragment.deleteExpressionToken();
     }
 
     @Override
-    public View.OnClickListener setDotButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (displayFragment.isDotEnabled()){
-                    setDisplayExpression(view);
-                    displayFragment.setDotEnabled(false);
-                }
-            }
-        };
+    public void delButtonOnLongClickListener() {
+        displayFragment.clearDisplay();
     }
 
     @Override
-    public View.OnClickListener setEqualsButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayFragment.setCalculateEnabled(false);
-                displayFragment.clearExpression();
-                displayFragment.setExpressionToken(displayFragment.getAnswer());
-                displayFragment.clearAnswer();
-            }
-        };
-    }
+    public void clrButtonOnClickListener() {
 
-    private void setDisplayAnswer() {
-        displayFragment.setAnswer(Main.calculate(displayFragment.getExpression()));
     }
-
-    private void setDisplayExpression(View view) {
-        displayFragment.setExpressionToken(((Button) view).getText().toString());
-    }
-
 
     @Override
-    public View.OnLongClickListener setDeleteButtonOnLongClickListener() {
-        return new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                displayFragment.clearDisplay();
-                return true;
-            }
-        };
+    public void operationButtonOnClickListener(String text) {
+        if (!displayFragment.isOperatorEnabled()) {
+            displayFragment.deleteExpressionToken();
+        }
+        setDisplayExpression(text);
+        displayFragment.setDotEnabled(true);
+        displayFragment.setCalculateEnabled(true);
+        displayFragment.setOperatorEnabled(false);
+    }
+
+    @Override
+    public void equalsButtonOnClickListener() {
+        displayFragment.setCalculateEnabled(false);
+        displayFragment.clearExpression();
+        displayFragment.setExpressionToken(displayFragment.getAnswer());
+        displayFragment.clearAnswer();
+    }
+
+    @Override
+    public void padAdvanceButtonOnClickListener(String text) {
+        setDisplayExpression(text);
+        displayFragment.setOperatorEnabled(true);
+        if (displayFragment.isCalculateEnabled()) {
+            setDisplayAnswer();
+        }
     }
 }
 

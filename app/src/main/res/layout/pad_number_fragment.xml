@@ -77,4 +77,12 @@
         style="@style/ButtonNumberPadStyle"
         app:layout_constraintStart_toEndOf="@id/zero_button"
         app:layout_constraintTop_toBottomOf="@id/three_button" />
+
+    <Button
+        android:id="@+id/clr_button"
+        android:visibility="invisible"
+        android:text="@string/clr"
+        style="@style/ButtonNumberPadStyle"
+        app:layout_constraintStart_toEndOf="@id/zero_button"
+        app:layout_constraintTop_toBottomOf="@id/three_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

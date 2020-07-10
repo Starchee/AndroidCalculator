@@ -13,16 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
-public class PadAdvancedFragment extends Fragment {
+public class PadAdvancedFragment extends Fragment  implements View.OnClickListener {
 
-    private View.OnClickListener onClickListener;
+    private PadAdvancedFragmentOnClickListener padAdvancedFragmentOnClickListener;
 
-    private View.OnClickListener mathButtonOnClickListener;
-
-
-
-    public void setOnClickListener(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public interface PadAdvancedFragmentOnClickListener{
+        void padAdvanceButtonOnClickListener(String text);
     }
 
     @Nullable
@@ -31,13 +27,13 @@ public class PadAdvancedFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.pad_advanced_fragment, container, false);
 
         ImageView arrowButton = rootView.findViewById(R.id.arrow_pad);
-        arrowButton.setOnClickListener(onClickListener);
+//        arrowButton.setOnClickListener(this);
 
         Button openingBracketButton = rootView.findViewById(R.id.opening_bracket_button);
-        openingBracketButton.setOnClickListener(mathButtonOnClickListener);
+        openingBracketButton.setOnClickListener(this);
 
         Button closingBracketButton = rootView.findViewById(R.id.closing_bracket_button);
-        closingBracketButton.setOnClickListener(mathButtonOnClickListener);
+        closingBracketButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -47,11 +43,15 @@ public class PadAdvancedFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            mathButtonOnClickListener = ((PadFragment.MathPadOnClickListener) context).setMathButtonOnClickListener();
+            padAdvancedFragmentOnClickListener = (PadAdvancedFragment.PadAdvancedFragmentOnClickListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadFragment.MathPadOnClickListener");
+            throw new ClassCastException(context.toString() + " must implement PadAdvancedFragment.PadAdvancedFragmentOnClickListener");
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        padAdvancedFragmentOnClickListener.padAdvanceButtonOnClickListener(((Button) view).getText().toString());
+    }
 }
 
