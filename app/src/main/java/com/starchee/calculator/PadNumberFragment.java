@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PadNumberFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
+public class PadNumberFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, MainActivityPadOperationListener {
 
+    private Button delButton;
+    private Button clrButton;
     private  boolean ClrButtonVisible = false;
     private PadNumberFragmentOnClickListener padNumberFragmentOnClickListener;
 
@@ -63,12 +65,12 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
         dotButton.setOnClickListener(this);
 
 
-        Button delButton = rootView.findViewById(R.id.del_button);
+        delButton = rootView.findViewById(R.id.del_button);
         delButton.setOnClickListener(this);
         delButton.setOnLongClickListener(this);
 
 
-        Button clrButton = rootView.findViewById(R.id.clr_button);
+        clrButton = rootView.findViewById(R.id.clr_button);
         clrButton.setOnClickListener(this);
 
         return rootView;
@@ -92,6 +94,8 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
             padNumberFragmentOnClickListener.delButtonOnClickListener();
         } else if (view.getId() == R.id.clr_button){
             padNumberFragmentOnClickListener.clrButtonOnClickListener();
+            clrButton.setVisibility(View.INVISIBLE);
+            delButton.setVisibility(View.VISIBLE);
         } else {
             padNumberFragmentOnClickListener.numberButtonOnClickListener(((Button) view).getText().toString());
         }
@@ -101,5 +105,11 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
     public boolean onLongClick(View view) {
         padNumberFragmentOnClickListener.delButtonOnLongClickListener();
         return true;
+    }
+
+    @Override
+    public void setClrButtonVisible() {
+        delButton.setVisibility(View.INVISIBLE);
+        clrButton.setVisibility(View.VISIBLE);
     }
 }

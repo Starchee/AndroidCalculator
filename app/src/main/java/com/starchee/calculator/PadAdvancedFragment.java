@@ -19,6 +19,7 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
 
     public interface PadAdvancedFragmentOnClickListener{
         void padAdvanceButtonOnClickListener(String text);
+        void padAdvanceArrowButtonOnClickListener();
     }
 
     @Nullable
@@ -27,7 +28,7 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
         View rootView = inflater.inflate(R.layout.pad_advanced_fragment, container, false);
 
         ImageView arrowButton = rootView.findViewById(R.id.arrow_pad);
-//        arrowButton.setOnClickListener(this);
+        arrowButton.setOnClickListener(this);
 
         Button openingBracketButton = rootView.findViewById(R.id.opening_bracket_button);
         openingBracketButton.setOnClickListener(this);
@@ -51,7 +52,13 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        padAdvancedFragmentOnClickListener.padAdvanceButtonOnClickListener(((Button) view).getText().toString());
+
+        if (view.getId() == R.id.arrow_pad){
+            padAdvancedFragmentOnClickListener.padAdvanceArrowButtonOnClickListener();
+        } else {
+            padAdvancedFragmentOnClickListener.padAdvanceButtonOnClickListener(((Button) view).getText().toString());
+
+        }
     }
 }
 

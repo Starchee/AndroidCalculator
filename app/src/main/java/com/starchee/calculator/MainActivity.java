@@ -3,29 +3,24 @@ package com.starchee.calculator;
 import android.os.Bundle;
 import android.view.View;
 
-import com.starchee.calculator.model.Main;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 
 public class MainActivity extends FragmentActivity implements
+        DisplayFragment.DisplayFragmentOnClickListener,
         PadNumberFragment.PadNumberFragmentOnClickListener,
         PadOperationFragment.OperationPadOnClickListener,
-        PadAdvancedFragment.PadAdvancedFragmentOnClickListener {
+        PadAdvancedFragment.PadAdvancedFragmentOnClickListener,
+        PadFragment.PadFragmentListener {
 
     private ViewPager2 viewPager;
     private PagerAdapter pagerAdapter;
     private PadFragment padFragment;
     private DisplayFragment displayFragment;
-
-    private void setDisplayAnswer() {
-        displayFragment.setAnswer(Main.calculate(displayFragment.getExpression()));
-    }
-
-    private void setDisplayExpression(String text) {
-        displayFragment.setExpressionToken(text);
-    }
+    private MainActivityPadListener mainActivityPadListener;
+    private MainActivityPadOperationListener mainActivityPadOperationListener;
+    private MainActivityArrowButtonListener mainActivityArrowButtonListener;
 
 
     @Override
@@ -40,16 +35,18 @@ public class MainActivity extends FragmentActivity implements
 
         padFragment = new PadFragment();
         displayFragment = new DisplayFragment();
-        displayFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (viewPager.getCurrentItem() == 1) {
-                    viewPager.setCurrentItem(0);
-                } else {
-                    viewPager.setCurrentItem(1);
-                }
-            }
-        });
+
+        if (padFragment instanceof MainActivityArrowButtonListener) {
+            mainActivityArrowButtonListener = padFragment;
+        } else {
+            throw new ClassCastException(padFragment.toString() + " must implement MainActivity.MainActivityArrowButtonListener");
+        }
+
+        if (displayFragment instanceof MainActivityPadListener) {
+            mainActivityPadListener = displayFragment;
+        } else {
+            throw new ClassCastException(displayFragment.toString() + " must implement MainActivity.MainActivityPadListener");
+        }
 
         pagerAdapter = new PagerAdapter(this, padFragment, displayFragment);
         viewPager.setAdapter(pagerAdapter);
@@ -59,62 +56,68 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void numberButtonOnClickListener(String text) {
-        setDisplayExpression(text);
-        displayFragment.setOperatorEnabled(true);
-        if (displayFragment.isCalculateEnabled()) {
-            setDisplayAnswer();
+    public void arrowButtonOnClickListener() {
+        if (viewPager.getCurrentItem() == 1) {
+            viewPager.setCurrentItem(0);
+        } else {
+            viewPager.setCurrentItem(1);
         }
+    }
+
+
+    @Override
+    public void numberButtonOnClickListener(String text) {
+        mainActivityPadListener.setOperandInExpression(text);
     }
 
     @Override
     public void dotButtonOnClickListener(String text) {
-        if (displayFragment.isDotEnabled()) {
-            setDisplayExpression(text);
-            displayFragment.setDotEnabled(false);
-        }
+        mainActivityPadListener.setDotInExpression(text);
     }
 
     @Override
     public void delButtonOnClickListener() {
-        displayFragment.deleteExpressionToken();
+        mainActivityPadListener.deleteExpressionToken();
     }
 
     @Override
     public void delButtonOnLongClickListener() {
-        displayFragment.clearDisplay();
+        mainActivityPadListener.clearDisplay();
     }
 
     @Override
     public void clrButtonOnClickListener() {
-
+        mainActivityPadListener.clearDisplay();
     }
 
     @Override
     public void operationButtonOnClickListener(String text) {
-        if (!displayFragment.isOperatorEnabled()) {
-            displayFragment.deleteExpressionToken();
-        }
-        setDisplayExpression(text);
-        displayFragment.setDotEnabled(true);
-        displayFragment.setCalculateEnabled(true);
-        displayFragment.setOperatorEnabled(false);
+        mainActivityPadListener.setOperatorInExpression(text);
     }
 
     @Override
     public void equalsButtonOnClickListener() {
-        displayFragment.setCalculateEnabled(false);
-        displayFragment.clearExpression();
-        displayFragment.setExpressionToken(displayFragment.getAnswer());
-        displayFragment.clearAnswer();
+        mainActivityPadListener.setAnswer();
+        mainActivityPadOperationListener.setClrButtonVisible();
     }
 
     @Override
     public void padAdvanceButtonOnClickListener(String text) {
-        setDisplayExpression(text);
-        displayFragment.setOperatorEnabled(true);
-        if (displayFragment.isCalculateEnabled()) {
-            setDisplayAnswer();
+        mainActivityPadListener.setBracketInExpression(text);
+    }
+
+    @Override
+    public void padAdvanceArrowButtonOnClickListener() {
+        mainActivityArrowButtonListener.arrowButtonOnClickListener();
+    }
+
+    @Override
+    public void onAttachPadNumberFragmentListener(PadNumberFragment padNumberFragment) {
+        if (padNumberFragment instanceof MainActivityPadOperationListener) {
+            mainActivityPadOperationListener = padNumberFragment;
+        } else {
+            throw new ClassCastException(displayFragment.toString() + " must implement MainActivity.MainActivityPadOperationListener");
+
         }
     }
 }
