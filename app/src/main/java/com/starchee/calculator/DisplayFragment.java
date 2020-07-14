@@ -31,6 +31,7 @@ public class DisplayFragment extends Fragment implements
     private boolean dotEnabled = true;
     private boolean operatorEnabled = false;
     private boolean calculateEnabled = false;
+    private boolean expressionEmpty = true;
     private Deque<MathEnabled> stack = new ArrayDeque<>();
     private DisplayFragmentOnClickListener displayFragmentOnClickListener;
 
@@ -46,6 +47,7 @@ public class DisplayFragment extends Fragment implements
         stringBuilder = new StringBuilder();
         expressionTextView.setText(stringBuilder.append(expressionTextView.getText().toString()).append(token).toString());
         stack.push(new MathEnabled(dotEnabled, operatorEnabled, calculateEnabled));
+        expressionEmpty = false;
     }
 
     private void clearExpression() {
@@ -136,13 +138,18 @@ public class DisplayFragment extends Fragment implements
 
     @Override
     public void setOperatorInExpression(String operator) {
-        if (!operatorEnabled) {
-            deleteExpressionToken();
+        if (expressionEmpty && operator.equals(getResources().getString(R.string.subtraction))){
+            setExpressionToken(operator);
+
+        } else if (!expressionEmpty && expressionTextView.getText().toString().length() > 1){
+            if (!operatorEnabled) {
+                deleteExpressionToken();
+            }
+            setExpressionToken(operator);
+            dotEnabled = true;
+            calculateEnabled = true;
+            operatorEnabled = false;
         }
-        setExpressionToken(operator);
-        dotEnabled = true;
-        calculateEnabled = true;
-        operatorEnabled = false;
     }
 
     @Override
@@ -153,6 +160,8 @@ public class DisplayFragment extends Fragment implements
             expressionTextView.setText(stringBuilder.deleteCharAt(stringBuilder.length() - 1));
             stack.pop().setEnabledValues();
             clearAnswer();
+        } else {
+            expressionEmpty = true;
         }
     }
 
@@ -166,9 +175,11 @@ public class DisplayFragment extends Fragment implements
 
     @Override
     public void clearDisplay() {
-        clearAnswer();
-        clearExpression();
-        animator();
+     if (!expressionEmpty){
+         clearAnswer();
+         clearExpression();
+         animator();
+     }
     }
 
     private class MathEnabled {
