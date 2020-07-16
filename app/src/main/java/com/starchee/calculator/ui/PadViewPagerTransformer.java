@@ -1,8 +1,10 @@
-package com.starchee.calculator;
+package com.starchee.calculator.ui;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.starchee.calculator.R;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager2.widget.ViewPager2;

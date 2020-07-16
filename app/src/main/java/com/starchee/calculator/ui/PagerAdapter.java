@@ -1,4 +1,4 @@
-package com.starchee.calculator;
+package com.starchee.calculator.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;

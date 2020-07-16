@@ -5,7 +5,10 @@
     android:background="@color/colorPrimaryLightBackground"
     android:layout_height="match_parent">
 
-
+    <fragment
+        android:name="com.starchee.calculator.ui.display.HistoryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/expressionTextView"
         android:layout_width="wrap_content"

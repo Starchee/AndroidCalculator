@@ -1,7 +1,19 @@
-package com.starchee.calculator;
+package com.starchee.calculator.ui.main;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.starchee.calculator.R;
+import com.starchee.calculator.ui.MainViewPagerTransformer;
+import com.starchee.calculator.ui.PagerAdapter;
+import com.starchee.calculator.ui.display.DisplayFragment;
+import com.starchee.calculator.ui.keypad.PadAdvancedFragment;
+import com.starchee.calculator.ui.keypad.PadFragment;
+import com.starchee.calculator.ui.keypad.PadNumberFragment;
+import com.starchee.calculator.ui.keypad.PadOperationFragment;
+import com.starchee.calculator.viewModels.HistoryViewModel;
+
+import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -21,15 +33,17 @@ public class MainActivity extends FragmentActivity implements
     private MainActivityPadListener mainActivityPadListener;
     private MainActivityPadOperationListener mainActivityPadOperationListener;
     private MainActivityArrowButtonListener mainActivityArrowButtonListener;
-
+    private List<String> dates;
+    private HistoryViewModel historyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = findViewById(R.id.pager_main);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
 
+        viewPager = findViewById(R.id.pager_main);
         viewPager.setOffscreenPageLimit(2);
         viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
 

@@ -1,4 +1,4 @@
-package com.starchee.calculator;
+package com.starchee.calculator.ui.keypad;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.starchee.calculator.R;
+import com.starchee.calculator.ui.main.MainActivityPadOperationListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

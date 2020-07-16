@@ -1,4 +1,4 @@
-package com.starchee.calculator;
+package com.starchee.calculator.ui.display;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.starchee.calculator.model.Main;
+import com.starchee.calculator.R;
+import com.starchee.calculator.domain.Main;
+import com.starchee.calculator.ui.main.MainActivityPadListener;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
