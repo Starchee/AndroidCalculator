@@ -7,6 +7,7 @@
 
     <fragment
         android:name="com.starchee.calculator.ui.display.HistoryFragment"
+        android:layout_marginBottom="200dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <TextView

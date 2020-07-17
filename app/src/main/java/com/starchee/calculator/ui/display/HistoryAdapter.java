@@ -1,6 +1,7 @@
 package com.starchee.calculator.ui.display;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private Context context;
-    private List<History> history;
+    private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+    private List<String> dates;
+    private List<History> histories;
 
-    public HistoryAdapter(Context context) {
-        this.history = new ArrayList<>();
-        this.context = context;
+
+    public void setDates(List<String> dates) {
+
+        this.dates = dates;
+        notifyDataSetChanged();
     }
 
-    public void setHistory(List<History> history) {
-
-        this.history = history;
+    public void setHistories(List<History> histories) {
+        this.histories = histories;
         notifyDataSetChanged();
     }
 
@@ -41,28 +45,37 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final  History history = this.history.get(position);
 
-        holder.titleTextView.setText(history.getDate());
-        holder.expressionTextView.setText(history.getExpression());
-        holder.answerTextView.setText(history.getAnswer());
+        holder.titleTextView.setText(dates.get(position));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.childRecyclerView.getContext());
+        layoutManager.setReverseLayout(true);
+
+        HistoryChildAdapter historyChildAdapter = new HistoryChildAdapter();
+        historyChildAdapter.setHistory(histories);
+        holder.childRecyclerView.setLayoutManager(layoutManager);
+        holder.childRecyclerView.setAdapter(historyChildAdapter);
+        holder.childRecyclerView.setRecycledViewPool(recycledViewPool);
+
+
     }
 
     @Override
     public int getItemCount() {
-        return history.size();
+        if (dates == null){
+            return 0;
+        }
+        return dates.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
-        public TextView expressionTextView;
-        public TextView answerTextView;
+        public RecyclerView childRecyclerView;
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
+            childRecyclerView = itemView.findViewById(R.id.childRecyclerView);
             titleTextView = itemView.findViewById(R.id.textViewTitle);
-            expressionTextView = itemView.findViewById(R.id.textViewExpression);
-            answerTextView = itemView.findViewById(R.id.textViewAnswer);
-        }
+    }
     }
 }

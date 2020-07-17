@@ -24,8 +24,7 @@ public class HistoryRepository {
         return historyDao.insert(history);
     }
 
-    public Flowable<List<String>> getAllDates() {
-
+    public Flowable<List<String>> getAllDates() { ;
         return historyDao.getAllDates();
     }
 
