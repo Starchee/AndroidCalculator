@@ -11,9 +11,6 @@ import com.starchee.calculator.ui.keypad.PadAdvancedFragment;
 import com.starchee.calculator.ui.keypad.PadFragment;
 import com.starchee.calculator.ui.keypad.PadNumberFragment;
 import com.starchee.calculator.ui.keypad.PadOperationFragment;
-import com.starchee.calculator.viewModels.HistoryViewModel;
-
-import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -33,8 +30,6 @@ public class MainActivity extends FragmentActivity implements
     private MainActivityPadListener mainActivityPadListener;
     private MainActivityPadOperationListener mainActivityPadOperationListener;
     private MainActivityArrowButtonListener mainActivityArrowButtonListener;
-    private List<String> dates;
-    private HistoryViewModel historyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

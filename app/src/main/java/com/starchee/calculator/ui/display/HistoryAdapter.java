@@ -1,13 +1,11 @@
 package com.starchee.calculator.ui.display;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.model.Expression;
 import com.starchee.calculator.model.History;
 
 import java.util.List;
@@ -21,23 +19,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     private List<History> histories;
 
-
     public void setHistories(List<History> histories) {
         this.histories = histories;
-       for (History x : histories){
-           Log.d("Tagy" , x.getSavedDate().getDate()+ " " + x.getExpressions().size());
-
-           for (Expression z : x.getExpressions())
-           Log.d("Tagy" , x.getSavedDate().getDate() + " : " + z.getExpression() + " = " + z.getAnswer());
-       }
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_recycler_item, parent, false);
-
+        View itemView = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.history_recycler_item, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -45,7 +37,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final History history = histories.get(position);
-
         holder.titleTextView.setText(history.getSavedDate().getDate());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.childRecyclerView.getContext());
@@ -54,8 +45,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.childRecyclerView.setLayoutManager(layoutManager);
         holder.childRecyclerView.setAdapter(historyChildAdapter);
         holder.childRecyclerView.setRecycledViewPool(recycledViewPool);
-
-
     }
 
     @Override
@@ -66,7 +55,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return histories.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
         public RecyclerView childRecyclerView;
 

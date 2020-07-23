@@ -18,7 +18,6 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
     private List<Expression> expressions;
 
     public void setExpressions(List<Expression> expressions) {
-
         this.expressions = expressions;
         notifyDataSetChanged();
     }
@@ -26,16 +25,16 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
     @NonNull
     @Override
     public HistoryChildAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_child_recycler_item, parent, false);
+        View itemView = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.history_child_recycler_item, parent, false);
 
-        return new HistoryChildAdapter.ViewHolder(itemView);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HistoryChildAdapter.ViewHolder holder, int position) {
         final Expression expression = this.expressions.get(position);
-
-
         holder.expressionTextView.setText(expression.getExpression());
         holder.answerTextView.setText(expression.getAnswer());
     }
@@ -48,7 +47,7 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
         return expressions.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView expressionTextView;
         public TextView answerTextView;
 
