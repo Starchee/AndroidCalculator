@@ -13,15 +13,12 @@ import android.widget.TextView;
 import com.starchee.calculator.R;
 import com.starchee.calculator.domain.Main;
 import com.starchee.calculator.model.Expression;
-import com.starchee.calculator.model.History;
 import com.starchee.calculator.model.SavedDate;
 import com.starchee.calculator.ui.main.MainActivityPadListener;
 import com.starchee.calculator.viewModels.HistoryViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Deque;
 
@@ -123,8 +120,8 @@ public class DisplayFragment extends Fragment implements
 
     @Override
     public void setOperandInExpression(String operand) {
-        setExpressionToken(operand);
         operatorEnabled = true;
+        setExpressionToken(operand);
         if (calculateEnabled) {
             setAnswer(Main.calculate(getExpression()));
         }
@@ -152,7 +149,7 @@ public class DisplayFragment extends Fragment implements
         if (expressionEmpty && operator.equals(getResources().getString(R.string.subtraction))){
             setExpressionToken(operator);
 
-        } else if (!expressionEmpty && expressionTextView.getText().toString().length() > 1){
+        } else if (!expressionEmpty){
             if (!operatorEnabled) {
                 deleteExpressionToken();
             }
@@ -191,6 +188,10 @@ public class DisplayFragment extends Fragment implements
     @Override
     public void clearDisplay() {
      if (!expressionEmpty){
+         dotEnabled = true;
+         operatorEnabled = false;
+         calculateEnabled = false;
+         expressionEmpty = true;
          clearAnswer();
          clearExpression();
          animator();
