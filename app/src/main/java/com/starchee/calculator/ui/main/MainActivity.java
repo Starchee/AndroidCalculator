@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
 
         viewPager = findViewById(R.id.pager_main);
         viewPager.setOffscreenPageLimit(2);

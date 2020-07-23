@@ -12,14 +12,23 @@ import android.widget.TextView;
 
 import com.starchee.calculator.R;
 import com.starchee.calculator.domain.Main;
+import com.starchee.calculator.model.Expression;
+import com.starchee.calculator.model.History;
+import com.starchee.calculator.model.SavedDate;
 import com.starchee.calculator.ui.main.MainActivityPadListener;
+import com.starchee.calculator.viewModels.HistoryViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Deque;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class DisplayFragment extends Fragment implements
         View.OnClickListener,
@@ -170,6 +179,10 @@ public class DisplayFragment extends Fragment implements
     @Override
     public void setAnswer() {
         calculateEnabled = false;
+        HistoryViewModel historyViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication()).create(HistoryViewModel.class);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        historyViewModel.insert(new SavedDate(simpleDateFormat.format(new Date())), new Expression(expressionTextView.getText().toString(), getAnswer()));
+//        historyViewModel.insert(new History(new SavedDate(simpleDateFormat.format(new Date()))));
         clearExpression();
         setExpressionToken(getAnswer());
         clearAnswer();

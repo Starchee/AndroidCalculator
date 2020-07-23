@@ -2,9 +2,11 @@ package com.starchee.calculator.repositories;
 
 import android.app.Application;
 
+import com.starchee.calculator.model.Expression;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.model.HistoryDao;
 import com.starchee.calculator.model.HistoryDatabase;
+import com.starchee.calculator.model.SavedDate;
 
 import java.util.List;
 
@@ -20,16 +22,12 @@ public class HistoryRepository {
         historyDao = database.getHistoryDao();
     }
 
-    public Completable insert(History history) {
-        return historyDao.insert(history);
+    public Completable insert(SavedDate savedDate, Expression expression) {
+        return historyDao.insert(savedDate, expression);
     }
 
-    public Flowable<List<String>> getAllDates() { ;
-        return historyDao.getAllDates();
-    }
-
-    public Flowable<List<History>> getAll(String date) {
-        return historyDao.getAllHistoryByDate(date);
+    public Flowable<List<History>> getAll() {
+        return historyDao.getAllHistoryByDate();
     }
 
     public Completable clear(){

@@ -3,6 +3,7 @@ package com.starchee.calculator.ui.display;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -39,29 +40,33 @@ public class HistoryFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        set();
         recyclerView.setAdapter(historyAdapter);
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                if (e.getAction() == MotionEvent.ACTION_MOVE) {
+                    recyclerView.getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+        LiveData<List<History>> data2 = historyViewModel.getLiveDataHistory();
+        data2.observe(this, histories -> {
+            historyAdapter.setHistories(histories);
+
+        });
 
         return rootView;
     }
-
-    public void set () {
-        LiveData<List<String>> data = historyViewModel.getLiveDataDates();
-        data.observe(this, dates -> {
-            Log.d("TAGGGG","MAIN" +  dates.toString());
-            historyAdapter.setDates(dates);
-            for (String x : dates){
-                get(x);
-            }
-        });
-    }
-
-    public void get(String date){
-        LiveData<List<History>> data2 = historyViewModel.getLiveDataHistory(date);
-        data2.observe(this, histories -> {
-                historyAdapter.setHistories(histories);
-
-        });
-    }
-
 }

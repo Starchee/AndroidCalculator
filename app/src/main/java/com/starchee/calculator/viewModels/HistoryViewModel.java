@@ -2,7 +2,9 @@ package com.starchee.calculator.viewModels;
 
 import android.app.Application;
 
+import com.starchee.calculator.model.Expression;
 import com.starchee.calculator.model.History;
+import com.starchee.calculator.model.SavedDate;
 import com.starchee.calculator.repositories.HistoryRepository;
 
 import java.util.List;
@@ -11,11 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
+import io.reactivex.CompletableObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class HistoryViewModel extends AndroidViewModel {
 
     private HistoryRepository historyRepository;
-    private LiveData<List<String>> liveDataDates;
     private LiveData<List<History>> liveDataHistory;
 
     public HistoryViewModel(@NonNull Application application) {
@@ -23,28 +29,33 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository = new HistoryRepository(application);
     }
 
-    private void getAllDates(){
-        liveDataDates = LiveDataReactiveStreams.fromPublisher(historyRepository.getAllDates());
 
+    private void getAllHistoryByDate(){
+        liveDataHistory = LiveDataReactiveStreams.fromPublisher(historyRepository.getAll());
     }
 
-    private void getAllHistoryByDate(String date){
-        liveDataHistory = LiveDataReactiveStreams.fromPublisher(historyRepository.getAll(date));
-    }
-
-    public LiveData<List<String>> getLiveDataDates() {
-        if (liveDataDates == null){
-            getAllDates();
-        }
-
-        return liveDataDates;
-    }
-
-    public LiveData<List<History>> getLiveDataHistory(String date) {
+    public LiveData<List<History>> getLiveDataHistory() {
         if (liveDataHistory == null ){
-            getAllHistoryByDate(date);
+            getAllHistoryByDate();
         }
         return liveDataHistory;
+    }
+
+    public void insert (SavedDate savedDate, Expression expression){
+        historyRepository.insert(savedDate, expression)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
 

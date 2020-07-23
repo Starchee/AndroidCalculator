@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.model.History;
+import com.starchee.calculator.model.Expression;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapter.ViewHolder> {
 
-    private List<History> history;
+    private List<Expression> expressions;
 
-    public void setHistory(List<History> history) {
+    public void setExpressions(List<Expression> expressions) {
 
-        this.history = history;
+        this.expressions = expressions;
         notifyDataSetChanged();
     }
 
@@ -33,19 +33,19 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HistoryChildAdapter.ViewHolder holder, int position) {
-        final  History history = this.history.get(position);
+        final Expression expression = this.expressions.get(position);
 
 
-        holder.expressionTextView.setText(history.getExpression());
-        holder.answerTextView.setText(history.getAnswer());
+        holder.expressionTextView.setText(expression.getExpression());
+        holder.answerTextView.setText(expression.getAnswer());
     }
 
     @Override
     public int getItemCount() {
-        if (history == null){
+        if (expressions == null){
             return 0;
         }
-        return history.size();
+        return expressions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

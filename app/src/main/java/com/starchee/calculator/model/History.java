@@ -1,51 +1,37 @@
 package com.starchee.calculator.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import java.util.List;
 
-@Entity
+import androidx.room.Embedded;
+import androidx.room.Relation;
+
+
 public class History {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
-    private String date;
-    private String expression;
-    private String answer;
 
-    public History(String date, String expression, String answer) {
-        this.date = date;
-        this.expression = expression;
-        this.answer = answer;
+    @Embedded
+    private SavedDate savedDate;
+
+    @Relation(parentColumn = "date" , entityColumn = "saved_date")
+    private List<Expression> expressions;
+
+    public History(SavedDate savedDate, List<Expression> expressions) {
+        this.savedDate = savedDate;
+        this.expressions = expressions;
     }
 
-    public long getId() {
-        return id;
+    public SavedDate getSavedDate() {
+        return savedDate;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setSavedDate(SavedDate savedDate) {
+        this.savedDate = savedDate;
     }
 
-    public String getDate() {
-        return date;
+    public List<Expression> getExpressions() {
+        return expressions;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setExpressions(List<Expression> expressions) {
+        this.expressions = expressions;
     }
 }
