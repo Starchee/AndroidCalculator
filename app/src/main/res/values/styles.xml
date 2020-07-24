@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:background">@color/colorPrimaryDarkBackground</item>
+<!--        <item name="android:background">@color/colorPrimaryDarkBackground</item>-->
     </style>
 
     <style name="ButtonNumberPadStyle">

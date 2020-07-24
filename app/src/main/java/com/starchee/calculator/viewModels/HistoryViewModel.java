@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -28,13 +29,13 @@ public class HistoryViewModel extends AndroidViewModel {
     }
 
 
-    private void getAllHistoryByDate(){
+    private void getAllHistory(){
         liveDataHistory = LiveDataReactiveStreams.fromPublisher(historyRepository.getAll());
     }
 
     public LiveData<List<History>> getLiveDataHistory() {
         if (liveDataHistory == null ){
-            getAllHistoryByDate();
+            getAllHistory();
         }
         return liveDataHistory;
     }
@@ -54,6 +55,10 @@ public class HistoryViewModel extends AndroidViewModel {
 
                     }
                 });
+    }
+
+    public Completable clearHistory(){
+        return historyRepository.clearHistory();
     }
 
 

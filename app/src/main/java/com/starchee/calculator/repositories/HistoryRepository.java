@@ -30,8 +30,8 @@ public class HistoryRepository {
         return historyDao.getAllHistoryByDate();
     }
 
-    public Completable clear(){
-        return historyDao.clear();
+    public Completable clearHistory(){
+        return historyDao.clearHistory();
 
     }
 }

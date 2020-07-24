@@ -27,7 +27,7 @@ public abstract class HistoryDao {
     abstract Completable insertExpression(Expression expressions);
 
     @Query("DELETE FROM saved_date")
-    public abstract Completable clear();
+    public abstract Completable clearHistory();
 
 
     @Transaction
