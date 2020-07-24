@@ -12,11 +12,11 @@ import com.starchee.calculator.ui.keypad.PadFragment;
 import com.starchee.calculator.ui.keypad.PadNumberFragment;
 import com.starchee.calculator.ui.keypad.PadOperationFragment;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 
-public class MainActivity extends FragmentActivity implements
+public class MainActivity extends AppCompatActivity implements
         DisplayFragment.DisplayFragmentOnClickListener,
         PadNumberFragment.PadNumberFragmentOnClickListener,
         PadOperationFragment.OperationPadOnClickListener,
@@ -35,8 +35,6 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         viewPager = findViewById(R.id.pager_main);
         viewPager.setOffscreenPageLimit(2);
@@ -61,7 +59,6 @@ public class MainActivity extends FragmentActivity implements
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(pagerAdapter.getItemCount() - 1, false);
         viewPager.setPageTransformer(new MainViewPagerTransformer());
-
     }
 
     @Override
