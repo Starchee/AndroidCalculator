@@ -8,17 +8,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.viewModels.DisplayViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public class PadOperationFragment extends Fragment implements View.OnClickListener {
 
     private OperationPadOnClickListener operationPadOnClickListener;
+    private DisplayViewModel displayViewModel;
 
     public interface OperationPadOnClickListener{
-        void operationButtonOnClickListener(String text);
         void equalsButtonOnClickListener();
     }
 
@@ -26,6 +28,7 @@ public class PadOperationFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pad_operation_fragment, container, false);
+        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
 
         Button divideButton = rootView.findViewById(R.id.divide_button);
         divideButton.setOnClickListener(this);
@@ -59,9 +62,10 @@ public class PadOperationFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.equals_button){
+            displayViewModel.setEquals();
             operationPadOnClickListener.equalsButtonOnClickListener();
         } else {
-            operationPadOnClickListener.operationButtonOnClickListener(((Button) view).getText().toString());
+            displayViewModel.setOperatorInExpression(((Button) view).getText().toString());
         }
     }
 }

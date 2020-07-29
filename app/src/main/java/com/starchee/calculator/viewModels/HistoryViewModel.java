@@ -40,22 +40,6 @@ public class HistoryViewModel extends AndroidViewModel {
         return liveDataHistory;
     }
 
-    public void insert (SavedDate savedDate, Expression expression){
-        historyRepository.insert(savedDate, expression)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableCompletableObserver() {
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
 
     public Completable clearHistory(){
         return historyRepository.clearHistory();

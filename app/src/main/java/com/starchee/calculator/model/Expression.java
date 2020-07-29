@@ -2,9 +2,15 @@ package com.starchee.calculator.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "expression",
+        foreignKeys = @ForeignKey(entity = SavedDate.class, parentColumns = "date",
+        childColumns = "saved_date", onDelete = CASCADE))
 public class Expression {
 
     @PrimaryKey(autoGenerate = true)
@@ -15,6 +21,10 @@ public class Expression {
 
     private String expression;
     private String answer;
+
+    @Ignore
+    public Expression() {
+    }
 
     public Expression(String expression, String answer) {
         this.expression = expression;

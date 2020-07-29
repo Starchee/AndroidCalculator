@@ -22,9 +22,18 @@ public class HistoryRepository {
         historyDao = database.getHistoryDao();
     }
 
-    public Completable insert(SavedDate savedDate, Expression expression) {
-        return historyDao.insert(savedDate, expression);
+    public Completable insert(History history) {
+        return historyDao.insert(history);
     }
+
+    public Completable insertCurrentExpression(History history){
+        return historyDao.insertCurrent(history);
+    }
+
+    public Completable deleteCurrentExpression(SavedDate savedDate){
+        return historyDao.deleteCurrentDate(savedDate);
+    }
+
 
     public Flowable<List<History>> getAll() {
         return historyDao.getAllHistoryByDate();
@@ -34,4 +43,6 @@ public class HistoryRepository {
         return historyDao.clearHistory();
 
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.starchee.calculator.domain;
+package com.starchee.calculator.ExpressionCalculator;
 
 public class Main {
     public static String calculate(String line) {

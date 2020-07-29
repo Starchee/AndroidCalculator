@@ -10,10 +10,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.starchee.calculator.R;
 import com.starchee.calculator.model.History;
+import com.starchee.calculator.viewModels.DisplayViewModel;
 import com.starchee.calculator.viewModels.HistoryViewModel;
 
 import java.util.List;
@@ -25,38 +27,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = HistoryFragment.class.getName();
 
     private View rootView;
+    private ImageView arrowButton;
     private HistoryAdapter historyAdapter;
     private RecyclerView recyclerView;
     private HistoryViewModel historyViewModel;
+    private DisplayViewModel displayViewModel;
     private  AlertDialog clearDialog;
-    private DisplayFragment.DisplayFragmentOnClickListener displayFragmentOnClickListener;
+    private HistoryFragment.HistoryFragmentOnClickListener historyFragmentOnClickListener;
+
+    public interface HistoryFragmentOnClickListener{
+       void arrowButtonOnClickListener();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.history_fragment, container, false);
-
-        historyViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getActivity().getApplication())
-                .create(HistoryViewModel.class);
+        arrowButton = rootView.findViewById(R.id.arrow_display);
+        arrowButton.setOnClickListener(this);
+        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         historyAdapter = new HistoryAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(historyAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation()));
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -80,7 +90,7 @@ public class HistoryFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Clear history and memory?")
                 .setPositiveButton(R.string.clear, (dialogInterface, i) -> {
-                    historyViewModel.clearHistory()
+                    displayViewModel.clearHistory()
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new DisposableCompletableObserver() {
@@ -95,7 +105,7 @@ public class HistoryFragment extends Fragment {
 
                                 }
                             });
-                    displayFragmentOnClickListener.arrowButtonOnClickListener();
+                    historyFragmentOnClickListener.arrowButtonOnClickListener();
                 })
                 .setNegativeButton("Dismiss", (dialogInterface, i) -> {
 
@@ -103,17 +113,19 @@ public class HistoryFragment extends Fragment {
 
         clearDialog = builder.create();
 
-        LiveData<List<History>> data2 = historyViewModel.getLiveDataHistory();
-        data2.observe(this, histories -> {
-            historyAdapter.setHistories(histories);
-
+        LiveData<List<History>> data2 = displayViewModel.getHistoryLiveData();
+        data2.observe(getViewLifecycleOwner(), new Observer<List<History>>() {
+            @Override
+            public void onChanged(List<History> histories) {
+                historyAdapter.setHistories(histories);
+            }
         });
 
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
+
 
         return rootView;
     }
@@ -128,7 +140,7 @@ public class HistoryFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                displayFragmentOnClickListener.arrowButtonOnClickListener();
+                historyFragmentOnClickListener.arrowButtonOnClickListener();
                 return true;
             case R.id.clear:
                 clearDialog.show();
@@ -143,9 +155,14 @@ public class HistoryFragment extends Fragment {
         super.onAttach(context);
 
         try {
-            displayFragmentOnClickListener = (DisplayFragment.DisplayFragmentOnClickListener) context;
+            historyFragmentOnClickListener = (HistoryFragment.HistoryFragmentOnClickListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implements DisplayFragment.DisplayFragmentOnClickListener");
+            throw new ClassCastException(context.toString() + " must implements HistoryFragment.HistoryFragmentOnClickListener");
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        historyFragmentOnClickListener.arrowButtonOnClickListener();
     }
 }

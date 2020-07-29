@@ -1,4 +1,4 @@
-package com.starchee.calculator.domain;
+package com.starchee.calculator.ExpressionCalculator;
 
 import java.util.List;
 

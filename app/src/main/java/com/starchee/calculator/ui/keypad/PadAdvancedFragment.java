@@ -9,18 +9,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.viewModels.DisplayViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 
 public class PadAdvancedFragment extends Fragment  implements View.OnClickListener {
 
     private PadAdvancedFragmentOnClickListener padAdvancedFragmentOnClickListener;
+    private DisplayViewModel displayViewModel;
 
     public interface PadAdvancedFragmentOnClickListener{
-        void padAdvanceButtonOnClickListener(String text);
         void padAdvanceArrowButtonOnClickListener();
     }
 
@@ -28,6 +30,8 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pad_advanced_fragment, container, false);
+        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+
 
         ImageView arrowButton = rootView.findViewById(R.id.arrow_pad);
         arrowButton.setOnClickListener(this);
@@ -58,7 +62,7 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
         if (view.getId() == R.id.arrow_pad){
             padAdvancedFragmentOnClickListener.padAdvanceArrowButtonOnClickListener();
         } else {
-            padAdvancedFragmentOnClickListener.padAdvanceButtonOnClickListener(((Button) view).getText().toString());
+            displayViewModel.setBracketInExpression(((Button) view).getText().toString());
 
         }
     }
