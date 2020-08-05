@@ -3,6 +3,7 @@ package com.starchee.calculator.ui.display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.starchee.calculator.R;
@@ -45,6 +46,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.childRecyclerView.setLayoutManager(layoutManager);
         holder.childRecyclerView.setAdapter(historyChildAdapter);
         holder.childRecyclerView.setRecycledViewPool(recycledViewPool);
+//        holder.childRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override

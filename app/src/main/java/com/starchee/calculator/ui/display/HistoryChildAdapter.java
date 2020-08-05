@@ -53,8 +53,8 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
-            expressionTextView = itemView.findViewById(R.id.textViewExpression);
-            answerTextView = itemView.findViewById(R.id.textViewAnswer);
+            expressionTextView = itemView.findViewById(R.id.expressionTextView);
+            answerTextView = itemView.findViewById(R.id.answerTextView);
         }
     }
 }

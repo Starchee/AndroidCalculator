@@ -66,12 +66,11 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(historyAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation()));
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 if (e.getAction() == MotionEvent.ACTION_MOVE) {
-                    recyclerView.getParent().requestDisallowInterceptTouchEvent(true);
+                    rv.getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 return false;
             }
@@ -118,6 +117,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onChanged(List<History> histories) {
                 historyAdapter.setHistories(histories);
+                recyclerView.smoothScrollToPosition(recyclerView.getAdapter().getItemCount());
             }
         });
 

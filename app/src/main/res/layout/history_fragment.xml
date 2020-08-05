@@ -13,7 +13,7 @@
         android:id="@+id/recyclerView"
         android:overScrollMode="never"
         android:nestedScrollingEnabled="true"
-        android:scrollbars="vertical"
+        android:scrollbars="none"
         android:layout_below="@+id/toolbar"
         android:layout_above="@+id/arrow_display"
         android:layout_width="match_parent"
