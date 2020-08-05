@@ -10,24 +10,24 @@ import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
 
-public class InputDisplay {
+public class DisplayCalculator {
 
     private final String SUBTRACTION = "-";
+    private final String DOT = ".";
+    private boolean answerSet = false;
     private History currentHistory;
     private Expression expression;
-    private SavedDate savedDate;
-
-    private InputDisplay.MathEnabled currentMathEnabled;
+    private DisplayCalculator.MathEnabled currentMathEnabled;
     private StringBuilder currentExpression;
-    private Deque<InputDisplay.MathEnabled> mathEnabledStack;
+    private Deque<DisplayCalculator.MathEnabled> mathEnabledStack;
 
-    public InputDisplay() {
-        currentMathEnabled = new InputDisplay.MathEnabled();
+    public DisplayCalculator() {
+        currentMathEnabled = new DisplayCalculator.MathEnabled();
         currentExpression = new StringBuilder();
         mathEnabledStack = new ArrayDeque<>();
         currentHistory = new History();
         expression = new Expression();
-        savedDate = new SavedDate("Current expression");
+        SavedDate savedDate = new SavedDate("Current expression");
         currentHistory = new History(savedDate, expression);
     }
 
@@ -36,7 +36,7 @@ public class InputDisplay {
         currentExpression.append(token);
         expression.setExpression(currentExpression.toString());
         mathEnabledStack.push(
-                new InputDisplay.MathEnabled(
+                new DisplayCalculator.MathEnabled(
                         currentMathEnabled.dotEnabled,
                         currentMathEnabled.operatorEnabled,
                         currentMathEnabled.calculateEnabled)
@@ -76,6 +76,10 @@ public class InputDisplay {
     }
 
     public History setOperandInExpression(String operand) {
+        if (answerSet){
+            clearDisplay();
+            answerSet = false;
+        }
         setExpressionToken(operand);
         currentMathEnabled.operatorEnabled = true;
         if (currentMathEnabled.calculateEnabled) {
@@ -85,6 +89,10 @@ public class InputDisplay {
     }
 
     public History setDotInExpression(String dot) {
+        if (answerSet){
+            clearDisplay();
+            answerSet = false;
+        }
         if (currentMathEnabled.dotEnabled) {
             setExpressionToken(dot);
             currentMathEnabled.dotEnabled = false;
@@ -94,6 +102,10 @@ public class InputDisplay {
     }
 
     public History setBracketInExpression(String bracket) {
+        if (answerSet){
+            clearDisplay();
+            answerSet = false;
+        }
         setExpressionToken(bracket);
         currentMathEnabled.operatorEnabled = true;
         if (currentMathEnabled.calculateEnabled) {
@@ -103,12 +115,16 @@ public class InputDisplay {
     }
 
     public History setOperatorInExpression(String operator) {
+        if (answerSet){
+            answerSet = false;
+        }
         //resourceProvider!!! need
         if (currentExpression.length() == 0 && operator.equals(SUBTRACTION)) {
             setExpressionToken(operator);
 
         } else if (currentExpression.length() == 1 &&
-                currentExpression.toString().equals(SUBTRACTION)){
+                currentExpression.toString().equals(SUBTRACTION) || currentExpression.length() == 1 &&
+                currentExpression.toString().equals(DOT)){
             deleteExpressionToken();
         } else if (currentExpression.length() > 0) {
             if (!currentMathEnabled.operatorEnabled) {
@@ -129,7 +145,7 @@ public class InputDisplay {
 
     public History clearDisplay() {
         if (currentExpression.length() > 0) {
-            currentMathEnabled = new InputDisplay.MathEnabled();
+            currentMathEnabled = new DisplayCalculator.MathEnabled();
             clearExpression();
             clearAnswer();
         }
@@ -149,17 +165,19 @@ public class InputDisplay {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
         SavedDate savedDate = new SavedDate(simpleDateFormat.format(new Date()));
-        History history = new History();
-        Expression nExpression = new Expression();
-        nExpression.setExpression(expression.getExpression());
-        nExpression.setAnswer(expression.getAnswer());
-        nExpression.setSavedDate(savedDate.getDate());
-        history.setSavedDate(savedDate);
-        history.setExpression(nExpression);
+        History answer = new History();
+        Expression answerExpression = new Expression();
+        answerExpression.setExpression(expression.getExpression());
+        answerExpression.setAnswer(expression.getAnswer());
+        answerExpression.setSavedDate(savedDate.getDate());
+        answer.setSavedDate(savedDate);
+        answer.setExpression(answerExpression);
+
         currentExpression = new StringBuilder();
         currentExpression.append(expression.getAnswer());
+        answerSet = true;
         clearAnswer();
-        return history;
+        return answer;
 
     }
 

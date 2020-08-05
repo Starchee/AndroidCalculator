@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.starchee.calculator.R;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.viewModels.DisplayViewModel;
-import com.starchee.calculator.viewModels.HistoryViewModel;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,9 +42,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
     private ImageView arrowButton;
     private HistoryAdapter historyAdapter;
     private RecyclerView recyclerView;
-    private HistoryViewModel historyViewModel;
     private DisplayViewModel displayViewModel;
-    private  AlertDialog clearDialog;
+    private AlertDialog clearDialog;
     private HistoryFragment.HistoryFragmentOnClickListener historyFragmentOnClickListener;
 
     public interface HistoryFragmentOnClickListener{

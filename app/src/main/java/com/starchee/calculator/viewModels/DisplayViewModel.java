@@ -20,14 +20,14 @@ import io.reactivex.schedulers.Schedulers;
 public class DisplayViewModel extends AndroidViewModel {
 
 
-    private InputDisplay inputDisplay;
+    private DisplayCalculator displayCalculator;
     private LiveData<List<History>> historyLiveData;
     private HistoryRepository historyRepository;
 
     public DisplayViewModel(@NonNull Application application) {
         super(application);
         historyRepository = new HistoryRepository(application);
-        inputDisplay = new InputDisplay();
+        displayCalculator = new DisplayCalculator();
     }
 
     private void insertCurrentExpression(History history){
@@ -106,31 +106,31 @@ public class DisplayViewModel extends AndroidViewModel {
 
 
     public void deleteExpressionToken() {
-        insertCurrentExpression(inputDisplay.deleteExpressionToken());
+        insertCurrentExpression(displayCalculator.deleteExpressionToken());
     }
 
     public void setOperandInExpression(String operand) {
-        insertCurrentExpression(inputDisplay.setOperandInExpression(operand));
+        insertCurrentExpression(displayCalculator.setOperandInExpression(operand));
     }
 
     public void setDotInExpression(String dot) {
-        insertCurrentExpression(inputDisplay.setDotInExpression(dot));
+        insertCurrentExpression(displayCalculator.setDotInExpression(dot));
     }
 
     public void setBracketInExpression(String bracket) {
-        insertCurrentExpression(inputDisplay.setBracketInExpression(bracket));
+        insertCurrentExpression(displayCalculator.setBracketInExpression(bracket));
     }
 
     public void setOperatorInExpression(String operator) {
-        insertCurrentExpression(inputDisplay.setOperatorInExpression(operator));
+        insertCurrentExpression(displayCalculator.setOperatorInExpression(operator));
     }
 
     public void clearDisplay() {
-        insertCurrentExpression(inputDisplay.clearDisplay());
+        insertCurrentExpression(displayCalculator.clearDisplay());
     }
 
     public void setEquals(){
-        History resultHistory = inputDisplay.setEquals();
+        History resultHistory = displayCalculator.setEquals();
         if (resultHistory != null){
             deleteCurrentExpression(new SavedDate("Current expression"));
             insertExpression(resultHistory);
