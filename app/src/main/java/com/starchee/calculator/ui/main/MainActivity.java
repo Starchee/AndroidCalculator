@@ -7,28 +7,22 @@ import com.starchee.calculator.R;
 import com.starchee.calculator.ui.MainViewPagerTransformer;
 import com.starchee.calculator.ui.PagerAdapter;
 import com.starchee.calculator.ui.display.DisplayFragment;
-import com.starchee.calculator.ui.display.HistoryFragment;
 import com.starchee.calculator.ui.keypad.PadAdvancedFragment;
 import com.starchee.calculator.ui.keypad.PadFragment;
-import com.starchee.calculator.ui.keypad.PadNumberFragment;
-import com.starchee.calculator.ui.keypad.PadOperationFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 
 public class MainActivity extends AppCompatActivity implements
-        HistoryFragment.HistoryFragmentOnClickListener,
-        PadOperationFragment.OperationPadOnClickListener,
-        PadAdvancedFragment.PadAdvancedFragmentOnClickListener,
-        PadFragment.PadFragmentListener {
+        ViewPagerButtonListener,
+        PadAdvancedFragment.PadAdvancedFragmentOnClickListener{
 
     private ViewPager2 viewPager;
     private PagerAdapter pagerAdapter;
     private PadFragment padFragment;
     private DisplayFragment displayFragment;
-    private MainActivityPadOperationListener mainActivityPadOperationListener;
-    private MainActivityArrowButtonListener mainActivityArrowButtonListener;
+    private ViewPagerButtonListener padViewPagerButtonListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +36,10 @@ public class MainActivity extends AppCompatActivity implements
         padFragment = new PadFragment();
         displayFragment = new DisplayFragment();
 
-        if (padFragment instanceof MainActivityArrowButtonListener) {
-            mainActivityArrowButtonListener = padFragment;
+        if (padFragment instanceof ViewPagerButtonListener) {
+            padViewPagerButtonListener = padFragment;
         } else {
-            throw new ClassCastException(padFragment.toString() + " must implement MainActivity.MainActivityArrowButtonListener");
+            throw new ClassCastException(padFragment.toString() + " must implement ViewPagerButtonListener");
         }
 
         pagerAdapter = new PagerAdapter(this, padFragment, displayFragment);
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void arrowButtonOnClickListener() {
+    public void arrowOnClickListener() {
         if (viewPager.getCurrentItem() == 1) {
             viewPager.setCurrentItem(0);
         } else {
@@ -64,23 +58,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void equalsButtonOnClickListener() {
-        mainActivityPadOperationListener.setClrButtonVisible();
-    }
-
-    @Override
     public void padAdvanceArrowButtonOnClickListener() {
-        mainActivityArrowButtonListener.arrowButtonOnClickListener();
-    }
-
-    @Override
-    public void onAttachPadNumberFragmentListener(PadNumberFragment padNumberFragment) {
-        if (padNumberFragment instanceof MainActivityPadOperationListener) {
-            mainActivityPadOperationListener = padNumberFragment;
-        } else {
-            throw new ClassCastException(padNumberFragment.toString() + " must implement MainActivity.MainActivityPadOperationListener");
-
-        }
+        padViewPagerButtonListener.arrowOnClickListener();
     }
 }
 

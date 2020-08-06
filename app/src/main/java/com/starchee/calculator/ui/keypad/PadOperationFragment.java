@@ -1,6 +1,5 @@
 package com.starchee.calculator.ui.keypad;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class PadOperationFragment extends Fragment implements View.OnClickListener {
 
-    private OperationPadOnClickListener operationPadOnClickListener;
     private DisplayViewModel displayViewModel;
 
-    public interface OperationPadOnClickListener{
-        void equalsButtonOnClickListener();
-    }
 
     @Nullable
     @Override
@@ -49,21 +44,9 @@ public class PadOperationFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        try {
-            operationPadOnClickListener = (PadOperationFragment.OperationPadOnClickListener) context;
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implements PadOperationFragment.OperationPadOnClickListener");
-        }
-    }
-
-    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.equals_button){
             displayViewModel.setEquals();
-            operationPadOnClickListener.equalsButtonOnClickListener();
         } else {
             displayViewModel.setOperatorInExpression(((Button) view).getText().toString());
         }

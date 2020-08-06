@@ -1,13 +1,12 @@
 package com.starchee.calculator.ui.keypad;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.ui.main.MainActivityArrowButtonListener;
+import com.starchee.calculator.ui.main.ViewPagerButtonListener;
 import com.starchee.calculator.ui.PadViewPagerTransformer;
 import com.starchee.calculator.ui.PagerAdapter;
 
@@ -16,18 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-public class PadFragment extends Fragment  implements MainActivityArrowButtonListener {
+public class PadFragment extends Fragment implements ViewPagerButtonListener {
 
     private ViewPager2 viewPager;
     private PagerAdapter pagerAdapter;
     private PadOperationFragment padOperationFragment;
     private PadAdvancedFragment padAdvancedFragment;
-    private PadFragmentListener padFragmentListener;
-
-
-    public interface PadFragmentListener{
-        void onAttachPadNumberFragmentListener(PadNumberFragment padNumberFragment);
-    }
 
     @Nullable
     @Override
@@ -38,6 +31,8 @@ public class PadFragment extends Fragment  implements MainActivityArrowButtonLis
         viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
         padOperationFragment = new PadOperationFragment();
         padAdvancedFragment = new PadAdvancedFragment();
+
+
         pagerAdapter = new PagerAdapter(this, padOperationFragment, padAdvancedFragment);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setPageTransformer(new PadViewPagerTransformer());
@@ -46,25 +41,7 @@ public class PadFragment extends Fragment  implements MainActivityArrowButtonLis
     }
 
     @Override
-    public void onAttachFragment(@NonNull Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        if (childFragment instanceof PadNumberFragment){
-            padFragmentListener.onAttachPadNumberFragmentListener((PadNumberFragment) childFragment);
-        }
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        try {
-            padFragmentListener = (PadFragment.PadFragmentListener) context;
-        } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implement PadFragment.PadFragmentListener");
-        }
-    }
-
-    @Override
-    public void arrowButtonOnClickListener() {
+    public void arrowOnClickListener() {
                 if (viewPager.getCurrentItem() == 1) {
                     viewPager.setCurrentItem(0);
                 } else {

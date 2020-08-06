@@ -19,10 +19,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DisplayViewModel extends AndroidViewModel {
 
-
+    private boolean visibleClrButton = false;
     private DisplayCalculator displayCalculator;
     private LiveData<List<History>> historyLiveData;
     private HistoryRepository historyRepository;
+    private SingleLiveEvent<Boolean> visibleClrLiveData;
+
 
     public DisplayViewModel(@NonNull Application application) {
         super(application);
@@ -97,31 +99,47 @@ public class DisplayViewModel extends AndroidViewModel {
         return historyLiveData;
     }
 
+    public SingleLiveEvent<Boolean> getVisibleClrLiveData() {
+        if (visibleClrLiveData == null){
+            visibleClrLiveData = new SingleLiveEvent<>();
+        }
+        return visibleClrLiveData;
+    }
 
     public Completable clearHistory(){
         clearDisplay();
         return historyRepository.clearHistory();
     }
-
-
-
+    
     public void deleteExpressionToken() {
         insertCurrentExpression(displayCalculator.deleteExpressionToken());
     }
 
     public void setOperandInExpression(String operand) {
+        if (visibleClrButton){
+            visibleClrLiveData.setValue(false);
+        }
         insertCurrentExpression(displayCalculator.setOperandInExpression(operand));
     }
 
     public void setDotInExpression(String dot) {
+        if (visibleClrButton){
+            visibleClrLiveData.setValue(false);
+        }
         insertCurrentExpression(displayCalculator.setDotInExpression(dot));
     }
 
     public void setBracketInExpression(String bracket) {
+        if (visibleClrButton){
+            visibleClrLiveData.setValue(false);
+        }
         insertCurrentExpression(displayCalculator.setBracketInExpression(bracket));
     }
 
     public void setOperatorInExpression(String operator) {
+        if (visibleClrButton){
+            visibleClrLiveData.setValue(false);
+        }
         insertCurrentExpression(displayCalculator.setOperatorInExpression(operator));
     }
 
@@ -134,6 +152,8 @@ public class DisplayViewModel extends AndroidViewModel {
         if (resultHistory != null){
             deleteCurrentExpression(new SavedDate("Current expression"));
             insertExpression(resultHistory);
+            visibleClrLiveData.setValue(true);
+            visibleClrButton = true;
         }
 
     }

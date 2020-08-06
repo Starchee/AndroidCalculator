@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.starchee.calculator.R;
 import com.starchee.calculator.model.History;
+import com.starchee.calculator.ui.main.ViewPagerButtonListener;
 import com.starchee.calculator.viewModels.DisplayViewModel;
 
 import java.util.List;
@@ -44,11 +45,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
     private RecyclerView recyclerView;
     private DisplayViewModel displayViewModel;
     private AlertDialog clearDialog;
-    private HistoryFragment.HistoryFragmentOnClickListener historyFragmentOnClickListener;
+    private ViewPagerButtonListener mainViewPagerButtonListener;
 
-    public interface HistoryFragmentOnClickListener{
-       void arrowButtonOnClickListener();
-    }
 
     @Nullable
     @Override
@@ -101,7 +99,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
 
                                 }
                             });
-                    historyFragmentOnClickListener.arrowButtonOnClickListener();
+                    mainViewPagerButtonListener.arrowOnClickListener();
                 })
                 .setNegativeButton("Dismiss", (dialogInterface, i) -> {
 
@@ -137,7 +135,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                historyFragmentOnClickListener.arrowButtonOnClickListener();
+                mainViewPagerButtonListener.arrowOnClickListener();
                 return true;
             case R.id.clear:
                 clearDialog.show();
@@ -152,14 +150,14 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
         super.onAttach(context);
 
         try {
-            historyFragmentOnClickListener = (HistoryFragment.HistoryFragmentOnClickListener) context;
+            mainViewPagerButtonListener = (ViewPagerButtonListener) context;
         } catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + " must implements HistoryFragment.HistoryFragmentOnClickListener");
+            throw new ClassCastException(context.toString() + " must implements ViewPagerButtonListener");
         }
     }
 
     @Override
     public void onClick(View view) {
-        historyFragmentOnClickListener.arrowButtonOnClickListener();
+        mainViewPagerButtonListener.arrowOnClickListener();
     }
 }

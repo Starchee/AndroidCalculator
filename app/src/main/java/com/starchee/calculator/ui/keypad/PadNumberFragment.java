@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.ui.main.MainActivityPadOperationListener;
 import com.starchee.calculator.viewModels.DisplayViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-public class PadNumberFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, MainActivityPadOperationListener {
+public class PadNumberFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private Button delButton;
     private Button clrButton;
@@ -27,6 +27,16 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
         View rootView =  inflater.inflate(R.layout.pad_number_fragment, container, false);
 
         displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+        displayViewModel.getVisibleClrLiveData().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean visibleClrLiveData) {
+                if (visibleClrLiveData){
+                    setClrButtonVisible();
+                } else {
+                    setClrButtonInvisible();
+                }
+            }
+        });
 
 
         Button zeroButton = rootView.findViewById(R.id.zero_button);
@@ -82,8 +92,7 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
             displayViewModel.deleteExpressionToken();
         } else if (view.getId() == R.id.clr_button){
             displayViewModel.clearDisplay();
-            clrButton.setVisibility(View.INVISIBLE);
-            delButton.setVisibility(View.VISIBLE);
+            setClrButtonInvisible();
         } else {
             displayViewModel.setOperandInExpression(((Button) view).getText().toString());
         }
@@ -95,9 +104,13 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
         return true;
     }
 
-    @Override
-    public void setClrButtonVisible() {
+    private void setClrButtonVisible() {
         delButton.setVisibility(View.INVISIBLE);
         clrButton.setVisibility(View.VISIBLE);
+    }
+
+    private void setClrButtonInvisible() {
+        clrButton.setVisibility(View.INVISIBLE);
+        delButton.setVisibility(View.VISIBLE);
     }
 }

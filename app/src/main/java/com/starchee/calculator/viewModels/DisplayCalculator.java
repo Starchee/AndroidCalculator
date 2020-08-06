@@ -49,7 +49,7 @@ public class DisplayCalculator {
 
     private void clearExpression() {
         currentExpression = new StringBuilder();
-        expression.setExpression(null);
+        expression.setExpression("");
     }
 
 
@@ -69,7 +69,6 @@ public class DisplayCalculator {
 
         if (currentExpression.length() == 0){
             clearExpression();
-            return null;
         }
 
         return currentHistory;
