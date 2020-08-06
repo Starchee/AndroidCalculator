@@ -1,4 +1,4 @@
-package com.starchee.calculator.viewModels;
+package com.starchee.calculator.Utils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
