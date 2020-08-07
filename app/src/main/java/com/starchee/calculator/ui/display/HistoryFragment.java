@@ -160,4 +160,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         mainViewPagerButtonListener.arrowOnClickListener();
     }
+
+
 }

@@ -48,7 +48,7 @@ public class Validator implements ExpressionValidator{
                 }
             }
         }
-        
+
         if (openingBracketCount != closingBracketCount){
             return  false;
         }
