@@ -10,6 +10,8 @@ public class Validator implements ExpressionValidator{
 
     @Override
     public boolean isValidate(List<String> expression) {
+        int openingBracketCount = 0;
+        int closingBracketCount = 0;
         String leftOfToken = null;
         String rightOfToken = null;
         Integer openingBracketPosition = null;
@@ -28,6 +30,7 @@ public class Validator implements ExpressionValidator{
                 if (Operator.isOperator(leftOfToken) || Operator.isOperator(rightOfToken))
                     return false;
             } else if (OPENING_BRACKET.equals(token)){
+                openingBracketCount++;
                 openingBracketPosition = i;
                 if (isOperand(leftOfToken) || !SUBTRACT.equals(rightOfToken) && Operator.isOperator(rightOfToken)){
                     return false;
@@ -35,6 +38,7 @@ public class Validator implements ExpressionValidator{
                     return false;
                 }
             } else if (CLOSING_BRACKET.equals(token)){
+                closingBracketCount++;
                 if (openingBracketPosition == null || openingBracketPosition > i){
                     return false;
                 } else if (Operator.isOperator(leftOfToken) || isOperand(rightOfToken)){
@@ -44,6 +48,11 @@ public class Validator implements ExpressionValidator{
                 }
             }
         }
+        
+        if (openingBracketCount != closingBracketCount){
+            return  false;
+        }
+
 
         return true;
     }
