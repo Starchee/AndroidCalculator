@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.Utils.ViewModelProviderFactory;
+import com.starchee.calculator.App;
 import com.starchee.calculator.viewModels.DisplayViewModel;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +26,9 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
     private PadAdvancedFragmentOnClickListener padAdvancedFragmentOnClickListener;
     private DisplayViewModel displayViewModel;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
+
     public interface PadAdvancedFragmentOnClickListener{
         void padAdvanceArrowButtonOnClickListener();
     }
@@ -30,7 +37,10 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pad_advanced_fragment, container, false);
-        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+
+        ((App)getActivity().getApplication()).getAppComponent().inject(this);
+
+        displayViewModel = new ViewModelProvider(requireActivity(),viewModelProviderFactory).get(DisplayViewModel.class);
 
 
         ImageView arrowButton = rootView.findViewById(R.id.arrow_pad);

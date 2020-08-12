@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.Utils.ViewModelProviderFactory;
+import com.starchee.calculator.App;
 import com.starchee.calculator.viewModels.DisplayViewModel;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +22,18 @@ public class PadOperationFragment extends Fragment implements View.OnClickListen
 
     private DisplayViewModel displayViewModel;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pad_operation_fragment, container, false);
-        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+
+        ((App)getActivity().getApplication()).getAppComponent().inject(this);
+
+        displayViewModel = new ViewModelProvider(requireActivity(), viewModelProviderFactory).get(DisplayViewModel.class);
 
         Button divideButton = rootView.findViewById(R.id.divide_button);
         divideButton.setOnClickListener(this);

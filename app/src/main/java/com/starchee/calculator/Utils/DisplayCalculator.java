@@ -1,6 +1,6 @@
-package com.starchee.calculator.viewModels;
+package com.starchee.calculator.Utils;
 
-import com.starchee.calculator.ExpressionCalculator.Main;
+import com.starchee.calculator.mathExpressionCalculator.MathExpressionCalculator;
 import com.starchee.calculator.model.Expression;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.model.SavedDate;
@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
+
+import javax.inject.Inject;
 
 public class DisplayCalculator {
 
@@ -20,8 +22,11 @@ public class DisplayCalculator {
     private DisplayCalculator.MathEnabled currentMathEnabled;
     private StringBuilder currentExpression;
     private Deque<DisplayCalculator.MathEnabled> mathEnabledStack;
+    private MathExpressionCalculator calculator;
 
-    public DisplayCalculator() {
+    @Inject
+    public DisplayCalculator(MathExpressionCalculator calculator) {
+        this.calculator  = calculator;
         currentMathEnabled = new DisplayCalculator.MathEnabled();
         currentExpression = new StringBuilder();
         mathEnabledStack = new ArrayDeque<>();
@@ -44,7 +49,7 @@ public class DisplayCalculator {
     }
 
     private void setAnswerData() {
-        expression.setAnswer(Main.calculate(currentExpression.toString()));
+        expression.setAnswer(calculator.calculate(currentExpression.toString()));
     }
 
     private void clearExpression() {

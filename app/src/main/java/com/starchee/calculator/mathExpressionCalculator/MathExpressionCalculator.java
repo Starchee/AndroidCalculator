@@ -1,15 +1,15 @@
-package com.starchee.calculator.ExpressionCalculator;
+package com.starchee.calculator.mathExpressionCalculator;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
-public class Calculator {
+public class MathExpressionCalculator {
 
     private ExpressionValidator expressionValidator;
     private ExpressionConverter expressionConverter;
 
-    public Calculator(ExpressionValidator expressionValidator, ExpressionConverter expressionConverter) {
+    public MathExpressionCalculator(ExpressionValidator expressionValidator, ExpressionConverter expressionConverter) {
         this.expressionValidator = expressionValidator;
         this.expressionConverter = expressionConverter;
     }

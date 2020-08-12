@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.Utils.ViewModelProviderFactory;
+import com.starchee.calculator.App;
 import com.starchee.calculator.viewModels.DisplayViewModel;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +25,17 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
     private Button clrButton;
     private  DisplayViewModel displayViewModel;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.pad_number_fragment, container, false);
 
-        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+        ((App)getActivity().getApplication()).getAppComponent().inject(this);
+
+        displayViewModel = new ViewModelProvider(requireActivity(), viewModelProviderFactory).get(DisplayViewModel.class);
         displayViewModel.getVisibleClrLiveData().observe(getActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean visibleClrLiveData) {

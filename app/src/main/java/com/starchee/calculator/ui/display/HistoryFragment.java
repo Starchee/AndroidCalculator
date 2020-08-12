@@ -14,11 +14,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.starchee.calculator.R;
+import com.starchee.calculator.App;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.ui.main.ViewPagerButtonListener;
 import com.starchee.calculator.viewModels.DisplayViewModel;
+import com.starchee.calculator.Utils.ViewModelProviderFactory;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,14 +51,21 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
     private AlertDialog clearDialog;
     private ViewPagerButtonListener mainViewPagerButtonListener;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.history_fragment, container, false);
+
         arrowButton = rootView.findViewById(R.id.arrow_display);
         arrowButton.setOnClickListener(this);
-        displayViewModel = new ViewModelProvider(requireActivity()).get(DisplayViewModel.class);
+
+        ((App)getActivity().getApplication()).getAppComponent().inject(this);
+
+        displayViewModel = new ViewModelProvider(requireActivity(),viewModelProviderFactory).get(DisplayViewModel.class);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         historyAdapter = new HistoryAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

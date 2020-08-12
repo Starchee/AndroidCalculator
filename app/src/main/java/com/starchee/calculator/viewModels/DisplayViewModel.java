@@ -1,7 +1,6 @@
 package com.starchee.calculator.viewModels;
 
-import android.app.Application;
-
+import com.starchee.calculator.Utils.DisplayCalculator;
 import com.starchee.calculator.Utils.SingleLiveEvent;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.model.SavedDate;
@@ -9,29 +8,39 @@ import com.starchee.calculator.repositories.HistoryRepository;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+import javax.inject.Inject;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
+import androidx.lifecycle.ViewModel;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class DisplayViewModel extends AndroidViewModel {
+public class DisplayViewModel extends ViewModel {
 
     private boolean visibleClrButton = false;
+    private HistoryRepository historyRepository;
     private DisplayCalculator displayCalculator;
     private LiveData<List<History>> historyLiveData;
-    private HistoryRepository historyRepository;
     private SingleLiveEvent<Boolean> visibleClrLiveData;
 
-
-    public DisplayViewModel(@NonNull Application application) {
-        super(application);
-        historyRepository = new HistoryRepository(application);
-        displayCalculator = new DisplayCalculator();
+    @Inject
+    public DisplayViewModel(HistoryRepository historyRepository, DisplayCalculator displayCalculator) {
+        this.historyRepository = historyRepository;
+        this.displayCalculator = displayCalculator;
     }
+
+//    public DisplayViewModel(@NonNull Application application) {
+//        super(application);
+////        DaggerApplicationComponent.builder()
+////                .appModule(new AppModule(application))
+////                .historyDatabaseModule(new HistoryDatabaseModule(application))
+////                .build()
+////        .inject(this);
+//        displayCalculator = new DisplayCalculator();
+//    }
 
     private void insertCurrentExpression(History history){
         if (history == null){
