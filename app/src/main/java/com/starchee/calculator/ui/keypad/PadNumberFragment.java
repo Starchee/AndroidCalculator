@@ -23,7 +23,7 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
 
     private Button delButton;
     private Button clrButton;
-    private  DisplayViewModel displayViewModel;
+    private DisplayViewModel displayViewModel;
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -36,7 +36,7 @@ public class PadNumberFragment extends Fragment implements View.OnClickListener,
         ((App)getActivity().getApplication()).getAppComponent().inject(this);
 
         displayViewModel = new ViewModelProvider(requireActivity(), viewModelProviderFactory).get(DisplayViewModel.class);
-        displayViewModel.getVisibleClrLiveData().observe(getActivity(), new Observer<Boolean>() {
+        displayViewModel.getVisibleClrLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean visibleClrLiveData) {
                 if (visibleClrLiveData){

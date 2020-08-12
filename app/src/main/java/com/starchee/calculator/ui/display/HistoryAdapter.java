@@ -46,7 +46,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.childRecyclerView.setLayoutManager(layoutManager);
         holder.childRecyclerView.setAdapter(historyChildAdapter);
         holder.childRecyclerView.setRecycledViewPool(recycledViewPool);
-//        holder.childRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override

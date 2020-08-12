@@ -32,16 +32,6 @@ public class DisplayViewModel extends ViewModel {
         this.displayCalculator = displayCalculator;
     }
 
-//    public DisplayViewModel(@NonNull Application application) {
-//        super(application);
-////        DaggerApplicationComponent.builder()
-////                .appModule(new AppModule(application))
-////                .historyDatabaseModule(new HistoryDatabaseModule(application))
-////                .build()
-////        .inject(this);
-//        displayCalculator = new DisplayCalculator();
-//    }
-
     private void insertCurrentExpression(History history){
         if (history == null){
             deleteCurrentExpression(new SavedDate("Current expression"));

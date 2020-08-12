@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.starchee.calculator.R;
 import com.starchee.calculator.App;
+import com.starchee.calculator.R;
+import com.starchee.calculator.Utils.ViewModelProviderFactory;
 import com.starchee.calculator.model.History;
 import com.starchee.calculator.ui.main.ViewPagerButtonListener;
 import com.starchee.calculator.viewModels.DisplayViewModel;
-import com.starchee.calculator.Utils.ViewModelProviderFactory;
 
 import java.util.List;
 
@@ -30,7 +30,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,6 +65,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
         ((App)getActivity().getApplication()).getAppComponent().inject(this);
 
         displayViewModel = new ViewModelProvider(requireActivity(),viewModelProviderFactory).get(DisplayViewModel.class);
+
         recyclerView = rootView.findViewById(R.id.recyclerView);
         historyAdapter = new HistoryAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -118,8 +118,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
 
         clearDialog = builder.create();
 
-        LiveData<List<History>> data2 = displayViewModel.getHistoryLiveData();
-        data2.observe(getViewLifecycleOwner(), new Observer<List<History>>() {
+        displayViewModel.getHistoryLiveData().observe(getViewLifecycleOwner(), new Observer<List<History>>() {
             @Override
             public void onChanged(List<History> histories) {
                 historyAdapter.setHistories(histories);
