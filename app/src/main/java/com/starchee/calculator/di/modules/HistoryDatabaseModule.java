@@ -2,8 +2,8 @@ package com.starchee.calculator.di.modules;
 
 import android.app.Application;
 
-import com.starchee.calculator.model.HistoryDao;
-import com.starchee.calculator.model.HistoryDatabase;
+import com.starchee.calculator.model.HistoryExpression.HistoryDao;
+import com.starchee.calculator.model.HistoryExpression.HistoryDatabase;
 import com.starchee.calculator.repositories.HistoryRepository;
 
 import javax.inject.Singleton;

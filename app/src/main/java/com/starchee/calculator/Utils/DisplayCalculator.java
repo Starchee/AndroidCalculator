@@ -1,9 +1,9 @@
 package com.starchee.calculator.Utils;
 
 import com.starchee.calculator.mathExpressionCalculator.MathExpressionCalculator;
-import com.starchee.calculator.model.Expression;
-import com.starchee.calculator.model.History;
-import com.starchee.calculator.model.SavedDate;
+import com.starchee.calculator.model.HistoryExpression.Expression;
+import com.starchee.calculator.model.HistoryExpression.History;
+import com.starchee.calculator.model.HistoryExpression.SavedDate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;

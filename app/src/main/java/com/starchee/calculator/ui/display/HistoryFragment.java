@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.starchee.calculator.App;
 import com.starchee.calculator.R;
 import com.starchee.calculator.Utils.ViewModelProviderFactory;
-import com.starchee.calculator.model.History;
+import com.starchee.calculator.model.HistoryExpression.History;
 import com.starchee.calculator.ui.main.ViewPagerButtonListener;
 import com.starchee.calculator.viewModels.DisplayViewModel;
 

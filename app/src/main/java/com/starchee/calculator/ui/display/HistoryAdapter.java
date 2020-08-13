@@ -3,11 +3,10 @@ package com.starchee.calculator.ui.display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.model.History;
+import com.starchee.calculator.model.HistoryExpression.History;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starchee.calculator.R;
-import com.starchee.calculator.model.Expression;
+import com.starchee.calculator.model.HistoryExpression.Expression;
 
 import java.util.List;
 

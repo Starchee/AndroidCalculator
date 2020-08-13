@@ -2,8 +2,8 @@ package com.starchee.calculator.viewModels;
 
 import com.starchee.calculator.Utils.DisplayCalculator;
 import com.starchee.calculator.Utils.SingleLiveEvent;
-import com.starchee.calculator.model.History;
-import com.starchee.calculator.model.SavedDate;
+import com.starchee.calculator.model.HistoryExpression.History;
+import com.starchee.calculator.model.HistoryExpression.SavedDate;
 import com.starchee.calculator.repositories.HistoryRepository;
 
 import java.util.List;

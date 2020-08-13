@@ -1,8 +1,8 @@
 package com.starchee.calculator.repositories;
 
-import com.starchee.calculator.model.History;
-import com.starchee.calculator.model.HistoryDao;
-import com.starchee.calculator.model.SavedDate;
+import com.starchee.calculator.model.HistoryExpression.History;
+import com.starchee.calculator.model.HistoryExpression.HistoryDao;
+import com.starchee.calculator.model.HistoryExpression.SavedDate;
 
 import java.util.List;
 
