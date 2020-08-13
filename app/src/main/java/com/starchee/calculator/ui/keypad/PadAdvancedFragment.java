@@ -52,6 +52,12 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
         Button closingBracketButton = rootView.findViewById(R.id.closing_bracket_button);
         closingBracketButton.setOnClickListener(this);
 
+        Button dollarButton = rootView.findViewById(R.id.dollar_button);
+        dollarButton.setOnClickListener(this);
+
+        Button euroButton = rootView.findViewById(R.id.euro_button);
+        euroButton.setOnClickListener(this);
+
         return rootView;
     }
 
@@ -71,6 +77,8 @@ public class PadAdvancedFragment extends Fragment  implements View.OnClickListen
 
         if (view.getId() == R.id.arrow_pad){
             padAdvancedFragmentOnClickListener.padAdvanceArrowButtonOnClickListener();
+        } else if(view.getId() == R.id.dollar_button || view.getId() == R.id.euro_button) {
+           displayViewModel.setCurrencyInExpression(((Button) view).getText().toString());
         } else {
             displayViewModel.setBracketInExpression(((Button) view).getText().toString());
 

@@ -1,12 +1,19 @@
 package com.starchee.calculator.viewModels;
 
+import android.util.Log;
+
+import com.starchee.calculator.App;
 import com.starchee.calculator.Utils.DisplayCalculator;
 import com.starchee.calculator.Utils.SingleLiveEvent;
 import com.starchee.calculator.model.HistoryExpression.History;
 import com.starchee.calculator.model.HistoryExpression.SavedDate;
+import com.starchee.calculator.model.currency.Currency;
+import com.starchee.calculator.model.currency.NetworkService;
+import com.starchee.calculator.model.currency.ServerResponse;
 import com.starchee.calculator.repositories.HistoryRepository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -16,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class DisplayViewModel extends ViewModel {
@@ -23,13 +31,19 @@ public class DisplayViewModel extends ViewModel {
     private boolean visibleClrButton = false;
     private HistoryRepository historyRepository;
     private DisplayCalculator displayCalculator;
+    private NetworkService networkService;
     private LiveData<List<History>> historyLiveData;
     private SingleLiveEvent<Boolean> visibleClrLiveData;
 
     @Inject
-    public DisplayViewModel(HistoryRepository historyRepository, DisplayCalculator displayCalculator) {
+    public DisplayViewModel(
+            HistoryRepository historyRepository,
+            DisplayCalculator displayCalculator,
+            NetworkService networkService
+    ) {
         this.historyRepository = historyRepository;
         this.displayCalculator = displayCalculator;
+        this.networkService = networkService;
     }
 
     private void insertCurrentExpression(History history){
@@ -156,5 +170,37 @@ public class DisplayViewModel extends ViewModel {
             visibleClrButton = true;
         }
 
+    }
+
+    public void setCurrencyInExpression(String currency) {
+        String charCode = "";
+        if (currency.equals("$")) {
+            charCode = "USD";
+        } else if (currency.equals("€")) {
+            charCode = "EUR";
+        }
+
+        String finalCharCode = charCode;
+        networkService.getJSONApi().getAllCurrency()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<ServerResponse>() {
+                    @Override
+                    public void onSuccess(ServerResponse serverResponse) {
+                        for (Map.Entry<String, Currency> entry : serverResponse.getValute().entrySet()) {
+                            Currency currency = entry.getValue();
+                            String x = "";
+                            if (currency.getCharCode().equals(finalCharCode)){
+                                setOperandInExpression(String.valueOf(currency.getValue()));
+                            }
+                            Log.d("myCalc", x);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("myCalc", e.toString());
+                    }
+                });
     }
 }

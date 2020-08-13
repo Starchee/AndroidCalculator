@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/arrow_pad"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/ic_baseline_arrow_forward_ios_20"
@@ -22,16 +22,30 @@
         <Button
             android:id="@+id/opening_bracket_button"
             style="@style/ButtonOperatorPadStyle"
-            android:text="("
+            android:text="@string/opening_bracket"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/closing_bracket_button"
             style="@style/ButtonOperatorPadStyle"
-            android:text=")"
+            android:text="@string/closing_bracket"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/opening_bracket_button" />
+
+        <Button
+            android:id="@+id/dollar_button"
+            style="@style/ButtonOperatorPadStyle"
+            android:text="@string/dollar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/closing_bracket_button" />
+
+        <Button
+            android:id="@+id/euro_button"
+            style="@style/ButtonOperatorPadStyle"
+            android:text="@string/euro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dollar_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

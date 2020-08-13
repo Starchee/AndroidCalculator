@@ -26,4 +26,8 @@
     <string name="arrow">arrow</string>
     <string name="clr">clr</string>
     <string name="clear">clear</string>
+    <string name="opening_bracket">(</string>
+    <string name="closing_bracket">)</string>
+    <string name="dollar">$</string>
+    <string name="euro">€</string>
 </resources>

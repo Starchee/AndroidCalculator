@@ -1,22 +1,32 @@
 package com.starchee.calculator.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.starchee.calculator.App;
 import com.starchee.calculator.R;
+import com.starchee.calculator.model.currency.Currency;
+import com.starchee.calculator.model.currency.NetworkService;
+import com.starchee.calculator.model.currency.ServerResponse;
 import com.starchee.calculator.ui.MainViewPagerTransformer;
 import com.starchee.calculator.ui.PagerAdapter;
 import com.starchee.calculator.ui.display.DisplayFragment;
 import com.starchee.calculator.ui.keypad.PadAdvancedFragment;
 import com.starchee.calculator.ui.keypad.PadFragment;
 
+import java.util.Map;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity implements
         ViewPagerButtonListener,
-        PadAdvancedFragment.PadAdvancedFragmentOnClickListener{
+        PadAdvancedFragment.PadAdvancedFragmentOnClickListener {
 
     private ViewPager2 viewPager;
     private PagerAdapter pagerAdapter;

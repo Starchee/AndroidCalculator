@@ -3,6 +3,7 @@ package com.starchee.calculator.di.components;
 import android.app.Application;
 
 import com.starchee.calculator.di.modules.HistoryDatabaseModule;
+import com.starchee.calculator.di.modules.NetworkModule;
 import com.starchee.calculator.di.modules.ViewModelModule;
 import com.starchee.calculator.ui.display.HistoryFragment;
 import com.starchee.calculator.ui.keypad.PadAdvancedFragment;
@@ -15,7 +16,9 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(dependencies = {}, modules = {HistoryDatabaseModule.class, ViewModelModule.class})
+@Component(
+        dependencies = {},
+        modules = {HistoryDatabaseModule.class, ViewModelModule.class , NetworkModule.class})
 public interface AppComponent {
 
     void inject(HistoryFragment historyFragment);
