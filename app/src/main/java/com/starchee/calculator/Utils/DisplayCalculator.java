@@ -92,6 +92,18 @@ public class DisplayCalculator {
         return currentHistory;
     }
 
+    public History setCurrencyInExpression(String currency){
+        for (int i = 0; i < currency.length()-1; i++){
+            String x = currency.substring(i,i+1);
+            if (x.equals(DOT)) {
+                setDotInExpression(x);
+            } else {
+                setOperandInExpression(x);
+            }
+        }
+        return  currentHistory;
+    }
+
     public History setDotInExpression(String dot) {
         if (answerSet){
             clearDisplay();
