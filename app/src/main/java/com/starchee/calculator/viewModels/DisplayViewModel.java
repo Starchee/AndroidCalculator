@@ -2,7 +2,6 @@ package com.starchee.calculator.viewModels;
 
 import android.util.Log;
 
-import com.starchee.calculator.App;
 import com.starchee.calculator.Utils.DisplayCalculator;
 import com.starchee.calculator.Utils.SingleLiveEvent;
 import com.starchee.calculator.model.HistoryExpression.History;
@@ -27,7 +26,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class DisplayViewModel extends ViewModel {
-
+    
     private boolean visibleClrButton = false;
     private HistoryRepository historyRepository;
     private DisplayCalculator displayCalculator;
@@ -193,13 +192,11 @@ public class DisplayViewModel extends ViewModel {
                             if (currency.getCharCode().equals(finalCharCode)){
                                 setOperandInExpression(String.valueOf(currency.getValue()));
                             }
-                            Log.d("myCalc", x);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("myCalc", e.toString());
                     }
                 });
     }
