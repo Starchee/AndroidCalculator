@@ -1,5 +1,7 @@
 package com.starchee.calculator.di.modules;
 
+import android.content.res.Resources;
+
 import com.starchee.calculator.mathExpressionCalculator.Converter;
 import com.starchee.calculator.mathExpressionCalculator.ExpressionConverter;
 import com.starchee.calculator.mathExpressionCalculator.ExpressionValidator;
@@ -12,7 +14,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module(includes = AppModule.class)
 public class DisplayCalculatorModule {
 
     @Singleton
@@ -36,7 +38,7 @@ public class DisplayCalculatorModule {
 
     @Singleton
     @Provides
-    DisplayCalculator providesHistoryDatabase(MathExpressionCalculator calculator){
-        return new DisplayCalculator(calculator);
+    DisplayCalculator providesHistoryDatabase(MathExpressionCalculator calculator, Resources resources){
+        return new DisplayCalculator(calculator, resources);
     }
 }

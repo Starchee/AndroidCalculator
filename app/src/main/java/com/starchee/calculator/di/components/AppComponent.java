@@ -2,6 +2,7 @@ package com.starchee.calculator.di.components;
 
 import android.app.Application;
 
+import com.starchee.calculator.di.modules.AppModule;
 import com.starchee.calculator.di.modules.HistoryDatabaseModule;
 import com.starchee.calculator.di.modules.NetworkModule;
 import com.starchee.calculator.di.modules.ViewModelModule;
@@ -18,7 +19,12 @@ import dagger.Component;
 @Singleton
 @Component(
         dependencies = {},
-        modules = {HistoryDatabaseModule.class, ViewModelModule.class , NetworkModule.class})
+        modules = {
+                AppModule.class,
+                HistoryDatabaseModule.class,
+                ViewModelModule.class ,
+                NetworkModule.class
+        })
 public interface AppComponent {
 
     void inject(HistoryFragment historyFragment);

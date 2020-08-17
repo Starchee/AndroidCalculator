@@ -1,5 +1,8 @@
 package com.starchee.calculator.Utils;
 
+import android.content.res.Resources;
+
+import com.starchee.calculator.R;
 import com.starchee.calculator.mathExpressionCalculator.MathExpressionCalculator;
 import com.starchee.calculator.model.HistoryExpression.Expression;
 import com.starchee.calculator.model.HistoryExpression.History;
@@ -14,8 +17,8 @@ import javax.inject.Inject;
 
 public class DisplayCalculator {
 
-    private final String SUBTRACTION = "-";
-    private final String DOT = ".";
+    private final String SUBTRACTION;
+    private final String DOT;
     private boolean answerSet = false;
     private History currentHistory;
     private Expression expression;
@@ -23,10 +26,12 @@ public class DisplayCalculator {
     private StringBuilder currentExpression;
     private Deque<DisplayCalculator.MathEnabled> mathEnabledStack;
     private MathExpressionCalculator calculator;
+    private Resources resources;
 
     @Inject
-    public DisplayCalculator(MathExpressionCalculator calculator) {
+    public DisplayCalculator(MathExpressionCalculator calculator, Resources resources) {
         this.calculator  = calculator;
+        this.resources = resources;
         currentMathEnabled = new DisplayCalculator.MathEnabled();
         currentExpression = new StringBuilder();
         mathEnabledStack = new ArrayDeque<>();
@@ -34,6 +39,8 @@ public class DisplayCalculator {
         expression = new Expression();
         SavedDate savedDate = new SavedDate("Current expression");
         currentHistory = new History(savedDate, expression);
+        SUBTRACTION = resources.getString(R.string.subtraction);
+        DOT = resources.getString(R.string.dot);
     }
 
 
