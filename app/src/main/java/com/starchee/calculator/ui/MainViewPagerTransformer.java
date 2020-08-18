@@ -13,11 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 public class MainViewPagerTransformer implements ViewPager2.PageTransformer {
 
     private float offsetPadNumber = 0.0f;
-    final LastItemHistoryDecorator itemDecoration;
-
-    public MainViewPagerTransformer() {
-        itemDecoration = new LastItemHistoryDecorator();
-    }
+    final LastItemHistoryDecorator itemDecoration = new LastItemHistoryDecorator();
 
     @Override
     public void transformPage(@NonNull View page, float position) {

@@ -93,7 +93,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Clear history and memory?")
+        builder.setMessage(getResources().getString(R.string.clearHistoryButtonAlertMessage))
                 .setPositiveButton(R.string.clear, (dialogInterface, i) -> {
                     displayViewModel.clearHistory()
                             .subscribeOn(Schedulers.computation())
@@ -101,7 +101,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener{
                             .subscribe(new DisposableCompletableObserver() {
                                 @Override
                                 public void onComplete() {
-                                    Toast.makeText(getContext(), "History has been cleared successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.clearHistorySuccessToast), Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override

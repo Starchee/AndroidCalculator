@@ -1,6 +1,5 @@
 package com.starchee.calculator.ui;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 

@@ -17,14 +17,12 @@ import javax.inject.Inject;
 
 public class DisplayCalculator {
 
-    private final String SUBTRACTION;
-    private final String DOT;
     private boolean answerSet = false;
-    private History currentHistory;
-    private Expression expression;
-    private DisplayCalculator.MathEnabled currentMathEnabled;
-    private StringBuilder currentExpression;
-    private Deque<DisplayCalculator.MathEnabled> mathEnabledStack;
+    private Expression expression = new Expression();
+    private History currentHistory = new History(new SavedDate("Current expression"), expression);
+    private DisplayCalculator.MathEnabled currentMathEnabled = new DisplayCalculator.MathEnabled();
+    private StringBuilder currentExpression = new StringBuilder();
+    private Deque<DisplayCalculator.MathEnabled> mathEnabledStack = new ArrayDeque<>();
     private MathExpressionCalculator calculator;
     private Resources resources;
 
@@ -32,15 +30,6 @@ public class DisplayCalculator {
     public DisplayCalculator(MathExpressionCalculator calculator, Resources resources) {
         this.calculator  = calculator;
         this.resources = resources;
-        currentMathEnabled = new DisplayCalculator.MathEnabled();
-        currentExpression = new StringBuilder();
-        mathEnabledStack = new ArrayDeque<>();
-        currentHistory = new History();
-        expression = new Expression();
-        SavedDate savedDate = new SavedDate("Current expression");
-        currentHistory = new History(savedDate, expression);
-        SUBTRACTION = resources.getString(R.string.subtraction);
-        DOT = resources.getString(R.string.dot);
     }
 
 
@@ -102,7 +91,7 @@ public class DisplayCalculator {
     public History setCurrencyInExpression(String currency){
         for (int i = 0; i < currency.length()-1; i++){
             String x = currency.substring(i,i+1);
-            if (x.equals(DOT)) {
+            if (x.equals(resources.getString(R.string.dot))) {
                 setDotInExpression(x);
             } else {
                 setOperandInExpression(x);
@@ -141,13 +130,12 @@ public class DisplayCalculator {
         if (answerSet){
             answerSet = false;
         }
-        //resourceProvider!!! need
-        if (currentExpression.length() == 0 && operator.equals(SUBTRACTION)) {
+        if (currentExpression.length() == 0 && operator.equals(resources.getString(R.string.subtraction))) {
             setExpressionToken(operator);
 
         } else if (currentExpression.length() == 1 &&
-                currentExpression.toString().equals(SUBTRACTION) || currentExpression.length() == 1 &&
-                currentExpression.toString().equals(DOT)){
+                currentExpression.toString().equals(resources.getString(R.string.subtraction)) || currentExpression.length() == 1 &&
+                currentExpression.toString().equals(resources.getString(R.string.dot))){
             deleteExpressionToken();
         } else if (currentExpression.length() > 0) {
             if (!currentMathEnabled.operatorEnabled) {
