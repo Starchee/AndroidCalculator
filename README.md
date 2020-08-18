@@ -16,4 +16,5 @@
 *  Dagger2;
 *  Room;
 *  Retrofit2;
-*  RxJava2.
+*  RxJava2;
+*  JUnit.
